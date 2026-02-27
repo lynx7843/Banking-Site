@@ -1,7 +1,7 @@
-package com.example.GenZAccountApi.service;
+package com.example.backend.service;
 
-import com.example.GenZAccountApi.model.AccountApplication;
-import com.example.GenZAccountApi.repository.AccountApplicationRepository;
+import com.example.backend.model.AccountApplication;
+import com.example.backend.repository.AccountApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.GenZAccountApi.config;
+package com.example.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
