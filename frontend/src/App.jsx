@@ -9,7 +9,7 @@ import Login from './Login';
 import Register from './Register'; // Import the new component
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  const [currentPage, setCurrentPage] = useState('login');
 
   return (
     <div className="App">

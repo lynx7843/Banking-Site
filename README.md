@@ -1,30 +1,26 @@
-<div>
-<h1> 🧾 Banking Site </h1>
+<h1>🏦 Banking Site </h1>
 
-<p><b> 
+<p> 
 A modern, full-stack digital banking platform built with React, Spring Boot, and MySQL. 
 Features include secure authentication, a multi-step account creation wizard, and an interactive financial dashboard.
-</p></b>
-Infromation are stored in **MySQL** using **XAMPP**.
-<center>
+</p>
+
+<div align="center">
 <h4>
    <a href="#features">Features</a> •
    <a href="#getting-started">Getting Started</a> •
    <a href="#tech-stack">Tech Stack</a> •
    <a href="#preview">Preview</a> 
 </h4>
-</center>
 </div>
 
-<br />
-
-##🔥 Features
+##✨ Features
 
 * MySQL database for storing user credentials
 * Spring Boot REST API for handling user authentication
 * React front-end login interface
 
-## 🚀 Getting Started
+##🚀 Getting Started
 
 ### Installation
 
