@@ -1,7 +1,7 @@
 // Login.js
 import React from 'react';
 
-function Login() {
+function Login({ setPage }) {
   return (
     <section className="login-section container">
       <div className="login-card">
@@ -19,7 +19,11 @@ function Login() {
           </div>
           
           {/* type="button" ensures it doesn't submit or refresh the page */}
-          <button type="button" className="btn btn-primary login-btn">
+          <button 
+            type="button" 
+            className="btn btn-primary login-btn"
+            onClick={() => setPage('home')}
+          >
             Log In
           </button>
         </form>
