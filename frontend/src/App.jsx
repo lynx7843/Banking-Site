@@ -30,7 +30,7 @@ function App() {
 
       {/* Conditionally render the new Register page */}
       {currentPage === 'register' && (
-        <Register />
+        <Register setPage={setCurrentPage} />
       )}
 
       <footer style={{borderTop: '2px solid #000', padding: '20px', textAlign: 'center', marginTop: '40px'}}>
