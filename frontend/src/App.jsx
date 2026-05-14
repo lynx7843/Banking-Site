@@ -13,7 +13,9 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar setPage={setCurrentPage} />
+      {currentPage !== 'login' && currentPage !== 'register' && (
+        <Navbar setPage={setCurrentPage} />
+      )}
       
       {currentPage === 'home' && (
         <>
@@ -23,16 +25,16 @@ function App() {
       )}
 
       {currentPage === 'login' && (
-        <Login />
+        <Login setPage={setCurrentPage} />
       )}
 
       {/* Conditionally render the new Register page */}
       {currentPage === 'register' && (
         <Register />
       )}
-      
+
       <footer style={{borderTop: '2px solid #000', padding: '20px', textAlign: 'center', marginTop: '40px'}}>
-          <p>© 2024 Mono Bank. Simple. Static. Secure.</p>
+          <p>© 2026 Mono Bank. Simple. Static. Secure.</p>
       </footer>
     </div>
   );
