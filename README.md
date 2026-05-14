@@ -14,13 +14,13 @@ Features include secure authentication, a multi-step account creation wizard, an
 </h4>
 </div>
 
-##✨ Features
+## ✨ Features
 
 * MySQL database for storing user credentials
 * Spring Boot REST API for handling user authentication
 * React front-end login interface
 
-##🚀 Getting Started
+## 🚀 Getting Started
 
 ### Installation
 
@@ -35,13 +35,13 @@ cd Banking-Site/frontend/src
 npm run dev
 ```
 
-##⚙️ Tech Stack
+## ⚙️ Tech Stack
 
 * Front-end: React
 * Back-end: Spring Boot
 * Database: MySQL
 
-##📷 Preview
+## 📷 Preview
 
 <img src="img/signin.png" alt="Login">
 <img src="img/signup.png" alt="SignUp">
