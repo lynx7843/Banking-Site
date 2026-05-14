@@ -32,13 +32,6 @@ function Navbar({ setPage }) {
         <div className="nav-actions">
           <a 
             href="#" 
-            className="btn btn-secondary" 
-            onClick={(e) => handleNavigation(e, 'login')}
-          >
-            Log In
-          </a>
-          <a 
-            href="#" 
             className="btn btn-primary" 
             onClick={(e) => handleNavigation(e, 'register')}
           >

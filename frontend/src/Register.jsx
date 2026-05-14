@@ -1,7 +1,7 @@
 // Register.js
 import React from 'react';
 
-function Register() {
+function Register({ setPage }) {
   return (
     <section className="register-section container">
       <div className="register-card">
@@ -62,8 +62,21 @@ function Register() {
           </div>
 
           {/* Button does nothing because type="button" instead of "submit" */}
-          <button type="button" className="btn btn-primary register-btn">
+          <button 
+            type="button" 
+            className="btn btn-primary register-btn"
+            onClick={() => setPage('home')}
+          >
             Submit Application
+          </button>
+          
+          <button 
+            type="button" 
+            className="btn btn-secondary register-btn"
+            style={{ marginLeft: 0, marginTop: '10px', borderColor: '#000' }}
+            onClick={() => setPage('login')}
+          >
+            Log In
           </button>
         </form>
       </div>

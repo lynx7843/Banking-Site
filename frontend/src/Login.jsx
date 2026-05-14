@@ -26,6 +26,15 @@ function Login({ setPage }) {
           >
             Log In
           </button>
+          
+          <button 
+            type="button" 
+            className="btn btn-secondary login-btn"
+            style={{ marginLeft: 0 }}
+            onClick={() => setPage('register')}
+          >
+            Register
+          </button>
         </form>
       </div>
     </section>
