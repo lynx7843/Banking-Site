@@ -177,52 +177,12 @@ const styles = {
     margin: 0,
   },
 
-  // Scalability
-  scalability: {
-    padding: "80px 60px",
-    textAlign: "center",
-    background: "#f7f7f5",
-    borderTop: "1px solid #e5e5e5",
-  },
+  // Shared Section Styles
   sectionTitle: {
     fontSize: 32,
     fontWeight: 800,
     letterSpacing: "-1px",
     margin: "0 0 48px",
-  },
-  scalabilityGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: 0,
-    maxWidth: 900,
-    margin: "0 auto",
-  },
-  scalabilityCard: {
-    border: "1px solid #ddd",
-    padding: "32px 24px",
-    textAlign: "left",
-    marginLeft: -1,
-    background: "#fff",
-  },
-  scalabilityNum: {
-    fontSize: 10,
-    fontWeight: 700,
-    letterSpacing: "2px",
-    textTransform: "uppercase",
-    color: "#999",
-    marginBottom: 12,
-  },
-  scalabilityCardTitle: {
-    fontSize: 14,
-    fontWeight: 700,
-    letterSpacing: "0.5px",
-    marginBottom: 10,
-    color: "#111",
-  },
-  scalabilityCardBody: {
-    fontSize: 13,
-    lineHeight: 1.6,
-    color: "#555",
   },
 
   // Business Perks
@@ -548,36 +508,6 @@ export default function MonoBank({ setPage }) {
             </p>
           </div>
         </div>
-
-        {/* ARCHITECTED FOR SCALABILITY */}
-        <section style={styles.scalability}>
-          <h2 style={styles.sectionTitle}>Architected for Scalability.</h2>
-          <div style={styles.scalabilityGrid}>
-            {[
-              {
-                num: "01.",
-                title: "Automation",
-                body: "Automate recurring payments and payroll with logic-based triggers.",
-              },
-              {
-                num: "02.",
-                title: "Analytics",
-                body: "Advanced data visualization for multi-entity reporting and tax prep.",
-              },
-              {
-                num: "03.",
-                title: "Security",
-                body: "Hardware-level encryption for every transaction and team login.",
-              },
-            ].map((c, i) => (
-              <div key={i} style={styles.scalabilityCard}>
-                <p style={styles.scalabilityNum}>{c.num}</p>
-                <p style={styles.scalabilityCardTitle}>{c.title}</p>
-                <p style={styles.scalabilityCardBody}>{c.body}</p>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* BUSINESS PERKS */}
         <section style={styles.perks}>
