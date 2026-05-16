@@ -43,7 +43,7 @@ npm run dev
 
 ## 📷 Preview
 
-<img src="img/signin.png" alt="Login">
+<img src="img/login.png" alt="Login">
 <img src="img/signup.png" alt="SignUp">
 <img src="img/dashboard.png" alt="Dashboard">
 
