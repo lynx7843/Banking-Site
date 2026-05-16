@@ -1,97 +1,25 @@
 import { useState } from "react";
+import Navbar from "./Navbar";
 
 const styles = {
+  // Added height constraint and overflowY auto to make the page scrollable 
+  // without squishing, and max-width to match the dashboard aspect ratio.
+  pageWrapper: {
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "#fff",
+    overflowY: "auto",
+    overflowX: "hidden",
+  },
   root: {
     fontFamily: "'DM Sans', 'Helvetica Neue', sans-serif",
     color: "#111",
     background: "#fff",
-    margin: 0,
+    margin: "0 auto",
     padding: 0,
-    overflowX: "hidden",
-  },
-  nav: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "0 40px",
-    height: 56,
-    borderBottom: "1px solid #e5e5e5",
-    background: "#fff",
-    position: "sticky",
-    top: 0,
-    zIndex: 100,
-  },
-  navLogo: {
-    fontWeight: 800,
-    fontSize: 18,
-    letterSpacing: "-0.5px",
-    color: "#111",
-    textTransform: "uppercase",
-  },
-  navLinks: {
-    display: "flex",
-    gap: 32,
-    listStyle: "none",
-    margin: 0,
-    padding: 0,
-  },
-  navLink: {
-    fontSize: 13,
-    fontWeight: 500,
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
-    color: "#111",
-    cursor: "pointer",
-    textDecoration: "none",
-  },
-  navLinkActive: {
-    fontSize: 13,
-    fontWeight: 500,
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
-    color: "#111",
-    cursor: "pointer",
-    textDecoration: "underline",
-    textUnderlineOffset: 4,
-  },
-  navActions: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-  },
-  btnOutline: {
-    padding: "8px 18px",
-    fontSize: 12,
-    fontWeight: 600,
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
-    background: "transparent",
-    border: "1px solid #111",
-    color: "#111",
-    cursor: "pointer",
-    display: "none",
-  },
-  btnGhost: {
-    padding: "8px 18px",
-    fontSize: 12,
-    fontWeight: 600,
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
-    background: "transparent",
-    border: "none",
-    color: "#111",
-    cursor: "pointer",
-  },
-  btnSolid: {
-    padding: "8px 20px",
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
-    background: "#111",
-    border: "1px solid #111",
-    color: "#fff",
-    cursor: "pointer",
+    maxWidth: "1440px", // Centers and constraints width like the dashboard
+    minHeight: "100%",
+    position: "relative",
   },
 
   // Hero
@@ -100,9 +28,10 @@ const styles = {
     gridTemplateColumns: "1fr 1fr",
     minHeight: 520,
     position: "relative",
+    borderBottom: "1px solid #e5e5e5",
   },
   heroLeft: {
-    padding: "80px 60px 80px 60px",
+    padding: "100px 60px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -131,7 +60,7 @@ const styles = {
     fontSize: 15,
     lineHeight: 1.6,
     color: "#444",
-    maxWidth: 300,
+    maxWidth: 340,
     margin: 0,
   },
   heroCTA: {
@@ -142,7 +71,6 @@ const styles = {
     fontSize: 11,
     fontWeight: 700,
     letterSpacing: "1.5px",
-    textTransform: "uppercase",
     cursor: "pointer",
     border: "none",
     width: "fit-content",
@@ -155,13 +83,6 @@ const styles = {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "flex-end",
-  },
-  heroGeo: {
-    position: "absolute",
-    inset: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
   },
   statusBadge: {
     position: "absolute",
@@ -186,23 +107,45 @@ const styles = {
   },
 
   // Features row
+  featuresHeader: {
+    textAlign: "center",
+    padding: "80px 0 40px 0",
+  },
+  featuresTitle: {
+    fontSize: 32,
+    fontWeight: 800,
+    letterSpacing: "-1px",
+    margin: "0 0 10px 0",
+  },
+  featuresSub: {
+    fontSize: 14,
+    color: "#555",
+    margin: 0,
+  },
   featuresRow: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
-    borderTop: "1px solid #e5e5e5",
+    gap: 24,
+    padding: "0 60px 80px 60px",
   },
   featureCard: {
     padding: "40px 36px",
-    borderRight: "1px solid #e5e5e5",
+    border: "2px solid #111",
+    borderRadius: 8,
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
     gap: 16,
   },
   featureCardDark: {
     padding: "40px 36px",
-    borderRight: "1px solid #333",
+    border: "2px solid #111",
+    borderRadius: 8,
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
     gap: 16,
     background: "#111",
     color: "#fff",
@@ -213,37 +156,21 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 8,
   },
-  featureIconDark: {
-    width: 36,
-    height: 36,
-    background: "#333",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  featureTitle: {
-    fontSize: 16,
+  featureTitleCentered: {
+    fontSize: 18,
     fontWeight: 800,
     letterSpacing: "-0.3px",
-    textTransform: "uppercase",
     margin: 0,
   },
-  featureTitleDark: {
-    fontSize: 16,
-    fontWeight: 800,
-    letterSpacing: "-0.3px",
-    textTransform: "uppercase",
-    margin: 0,
-    color: "#fff",
-  },
-  featureBody: {
+  featureBodyCentered: {
     fontSize: 13,
     lineHeight: 1.65,
     color: "#555",
     margin: 0,
   },
-  featureBodyDark: {
+  featureBodyDarkCentered: {
     fontSize: 13,
     lineHeight: 1.65,
     color: "#aaa",
@@ -261,21 +188,21 @@ const styles = {
     fontSize: 32,
     fontWeight: 800,
     letterSpacing: "-1px",
-    textTransform: "uppercase",
     margin: "0 0 48px",
   },
   scalabilityGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: 0,
-    maxWidth: 720,
+    maxWidth: 900,
     margin: "0 auto",
   },
   scalabilityCard: {
     border: "1px solid #ddd",
-    padding: "28px 24px",
+    padding: "32px 24px",
     textAlign: "left",
     marginLeft: -1,
+    background: "#fff",
   },
   scalabilityNum: {
     fontSize: 10,
@@ -286,10 +213,9 @@ const styles = {
     marginBottom: 12,
   },
   scalabilityCardTitle: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 700,
-    letterSpacing: "1px",
-    textTransform: "uppercase",
+    letterSpacing: "0.5px",
     marginBottom: 10,
     color: "#111",
   },
@@ -301,52 +227,50 @@ const styles = {
 
   // Business Perks
   perks: {
-    padding: "60px 60px 0",
+    padding: "80px 60px",
     borderTop: "1px solid #e5e5e5",
-  },
-  perksTitle: {
-    fontSize: 28,
-    fontWeight: 800,
-    letterSpacing: "-0.5px",
-    textTransform: "uppercase",
-    marginBottom: 32,
+    textAlign: "center",
   },
   perksGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(6, 1fr)",
     borderTop: "1px solid #e5e5e5",
     borderLeft: "1px solid #e5e5e5",
+    marginTop: 40,
   },
   perkCell: {
-    padding: "32px 16px",
+    padding: "40px 16px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: 14,
+    gap: 16,
     borderRight: "1px solid #e5e5e5",
     borderBottom: "1px solid #e5e5e5",
     cursor: "pointer",
+    transition: "background 0.2s ease",
   },
   perkIconBox: {
-    width: 44,
-    height: 44,
+    width: 48,
+    height: 48,
     background: "#111",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 4,
   },
   perkIconBoxOutline: {
-    width: 44,
-    height: 44,
-    border: "1.5px solid #111",
+    width: 48,
+    height: 48,
+    border: "2px solid #111",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 4,
   },
   perkLabel: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: 700,
-    letterSpacing: "1.5px",
+    letterSpacing: "1px",
     textTransform: "uppercase",
     color: "#111",
     textAlign: "center",
@@ -356,77 +280,72 @@ const styles = {
   ctaSection: {
     padding: "100px 60px",
     textAlign: "center",
-    borderTop: "1px solid #e5e5e5",
+    background: "#111",
+    color: "#fff",
   },
   ctaTitle: {
-    fontSize: 52,
+    fontSize: 48,
     fontWeight: 800,
-    letterSpacing: "-2px",
-    textTransform: "uppercase",
+    letterSpacing: "-1.5px",
     margin: "0 0 40px",
   },
   ctaButtons: {
     display: "flex",
-    gap: 12,
+    gap: 16,
     justifyContent: "center",
   },
   ctaBtnSolid: {
     padding: "16px 36px",
-    background: "#111",
-    color: "#fff",
-    fontSize: 11,
+    background: "#fff",
+    color: "#111",
+    fontSize: 12,
     fontWeight: 700,
-    letterSpacing: "1.5px",
-    textTransform: "uppercase",
-    border: "1px solid #111",
+    letterSpacing: "1px",
+    border: "none",
     cursor: "pointer",
   },
   ctaBtnOutline: {
     padding: "16px 36px",
     background: "transparent",
-    color: "#111",
-    fontSize: 11,
+    color: "#fff",
+    fontSize: 12,
     fontWeight: 700,
-    letterSpacing: "1.5px",
-    textTransform: "uppercase",
-    border: "1px solid #111",
+    letterSpacing: "1px",
+    border: "1px solid #fff",
     cursor: "pointer",
   },
 
   // Footer
   footer: {
     borderTop: "1px solid #e5e5e5",
-    padding: "28px 60px",
+    padding: "40px 60px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
   },
   footerLogo: {
     fontWeight: 800,
-    fontSize: 16,
+    fontSize: 18,
     letterSpacing: "-0.5px",
     textTransform: "uppercase",
   },
   footerLinks: {
     display: "flex",
-    gap: 28,
+    gap: 32,
     listStyle: "none",
     margin: 0,
     padding: 0,
   },
   footerLink: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 500,
-    letterSpacing: "1px",
-    textTransform: "uppercase",
     color: "#555",
     cursor: "pointer",
+    textDecoration: "none",
   },
   footerCopy: {
-    fontSize: 11,
+    fontSize: 12,
     color: "#999",
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
   },
 };
 
@@ -440,21 +359,18 @@ function HeroGeometry() {
       preserveAspectRatio="xMidYMid slice"
     >
       <rect width="500" height="520" fill="#111" />
-      {/* Large dark rectangles forming geometric composition */}
       <polygon points="80,0 320,0 420,180 180,180" fill="#1c1c1c" />
       <polygon points="320,0 500,0 500,220 420,180" fill="#2a2a2a" />
       <polygon points="180,180 420,180 500,400 260,400" fill="#222" />
       <polygon points="0,0 80,0 180,180 0,260" fill="#181818" />
       <polygon points="0,260 180,180 260,400 80,520 0,520" fill="#1a1a1a" />
       <polygon points="260,400 500,400 500,520 60,520" fill="#202020" />
-      {/* Highlight edge lines */}
       <line x1="80" y1="0" x2="180" y2="180" stroke="#333" strokeWidth="0.5" />
       <line x1="320" y1="0" x2="420" y2="180" stroke="#333" strokeWidth="0.5" />
       <line x1="180" y1="180" x2="420" y2="180" stroke="#2a2a2a" strokeWidth="0.5" />
       <line x1="180" y1="180" x2="260" y2="400" stroke="#2a2a2a" strokeWidth="0.5" />
       <line x1="420" y1="180" x2="500" y2="400" stroke="#2a2a2a" strokeWidth="0.5" />
       <line x1="260" y1="400" x2="500" y2="400" stroke="#2a2a2a" strokeWidth="0.5" />
-      {/* Top-right bright panel */}
       <polygon points="320,0 500,0 500,100 420,180 320,0" fill="#3a3a3a" />
     </svg>
   );
@@ -470,7 +386,6 @@ function IconWallet({ color = "#fff" }) {
     </svg>
   );
 }
-
 function IconUsers({ color = "#111" }) {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -481,7 +396,6 @@ function IconUsers({ color = "#111" }) {
     </svg>
   );
 }
-
 function IconSync({ color = "#111" }) {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -489,7 +403,6 @@ function IconSync({ color = "#111" }) {
     </svg>
   );
 }
-
 function IconPercent({ color = "#fff" }) {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -559,188 +472,164 @@ export default function MonoBank({ setPage }) {
   ];
 
   return (
-    <div style={styles.root}>
-      {/* Google Font */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { margin: 0; }
-        button:hover { opacity: 0.85; }
-      `}</style>
+    <div style={styles.pageWrapper}>
+      <div style={styles.root}>
+        {/* Google Font */}
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+          * { box-sizing: border-box; margin: 0; padding: 0; }
+          body { margin: 0; background: #fff; }
+          button:hover { opacity: 0.85; }
+        `}</style>
 
-      {/* NAV */}
-      <nav style={styles.nav}>
-        <div 
-          style={{ ...styles.navLogo, cursor: "pointer" }} 
-          onClick={() => setPage && setPage('home')}
-        >
-          Mono Bank.
+        {/* NAV */}
+        <Navbar setPage={setPage} />
+
+        {/* HERO */}
+        <section style={styles.hero}>
+          <div style={styles.heroLeft}>
+            <h1 style={styles.heroTitle}>
+              Banking Built<br />for Business.
+            </h1>
+            <p style={styles.heroSub}>
+              Uncompromising financial infrastructure for modern enterprises.
+              Zero fluff, total control.
+            </p>
+            <button style={styles.heroCTA}>Start Banking</button>
+          </div>
+          <div style={styles.heroRight}>
+            <HeroGeometry />
+            <div style={styles.statusBadge}>
+              <span style={styles.statusDot} />
+              System Status: Optimal
+            </div>
+          </div>
+        </section>
+
+        {/* FEATURES ROW (Aligned with Dashboard style) */}
+        <div style={styles.featuresHeader}>
+            <h2 style={styles.featuresTitle}>Designed for Efficiency.</h2>
+            <p style={styles.featuresSub}>Everything you need to keep your business in the black.</p>
         </div>
-        <ul style={styles.navLinks}>
-          {["Home", "Personal", "Business", "Features"].map((item) => (
-            <li key={item}>
-              <a
-                style={item === "Business" ? styles.navLinkActive : styles.navLink}
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (setPage && item === "Home") {
-                    setPage('home');
-                  }
+        <div style={styles.featuresRow}>
+          {/* Global Spending */}
+          <div style={styles.featureCard}>
+            <div style={styles.featureIcon}>
+              <IconWallet color="#111" />
+            </div>
+            <p style={styles.featureTitleCentered}>Global Spending</p>
+            <p style={styles.featureBodyCentered}>
+              Use your monochrome card anywhere contactless payments are accepted
+              around the world.
+            </p>
+          </div>
+          {/* Cash Flow Mastery - dark */}
+          <div style={styles.featureCardDark}>
+            <div style={styles.featureIcon}>
+              <IconSync color="#fff" />
+            </div>
+            <p style={{ ...styles.featureTitleCentered, color: "#fff" }}>
+              Cash Flow Mastery
+            </p>
+            <p style={styles.featureBodyDarkCentered}>
+              Real-time liquidity tracking with predictive forecasting. Every cent
+              accounted for, every move calculated.
+            </p>
+          </div>
+          {/* Multi-User */}
+          <div style={styles.featureCard}>
+            <div style={styles.featureIcon}>
+              <IconUsers color="#111" />
+            </div>
+            <p style={styles.featureTitleCentered}>Multi–User Access</p>
+            <p style={styles.featureBodyCentered}>
+              Delegate with precision. Granular permission levels for your entire
+              finance team and accountants.
+            </p>
+          </div>
+        </div>
+
+        {/* ARCHITECTED FOR SCALABILITY */}
+        <section style={styles.scalability}>
+          <h2 style={styles.sectionTitle}>Architected for Scalability.</h2>
+          <div style={styles.scalabilityGrid}>
+            {[
+              {
+                num: "01.",
+                title: "Automation",
+                body: "Automate recurring payments and payroll with logic-based triggers.",
+              },
+              {
+                num: "02.",
+                title: "Analytics",
+                body: "Advanced data visualization for multi-entity reporting and tax prep.",
+              },
+              {
+                num: "03.",
+                title: "Security",
+                body: "Hardware-level encryption for every transaction and team login.",
+              },
+            ].map((c, i) => (
+              <div key={i} style={styles.scalabilityCard}>
+                <p style={styles.scalabilityNum}>{c.num}</p>
+                <p style={styles.scalabilityCardTitle}>{c.title}</p>
+                <p style={styles.scalabilityCardBody}>{c.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* BUSINESS PERKS */}
+        <section style={styles.perks}>
+          <h2 style={styles.sectionTitle}>Business Perks.</h2>
+          <div style={styles.perksGrid}>
+            {perks.map((p, i) => (
+              <div
+                key={i}
+                style={{
+                  ...styles.perkCell,
+                  background: hovered === i ? "#f7f7f5" : "#fff",
                 }}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
               >
-                {item}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <div style={styles.navActions}>
-          <button style={styles.btnGhost}>Log In</button>
-          <button style={styles.btnSolid}>Open Account</button>
-        </div>
-      </nav>
+                {p.dark ? (
+                  <div style={styles.perkIconBox}>{p.icon}</div>
+                ) : (
+                  <div style={styles.perkIconBoxOutline}>{p.icon}</div>
+                )}
+                <span style={styles.perkLabel}>{p.label}</span>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      {/* HERO */}
-      <section style={styles.hero}>
-        <div style={styles.heroLeft}>
-          <span style={styles.heroBadge}>Business Focus</span>
-          <h1 style={styles.heroTitle}>
-            Banking Built<br />for Business.
-          </h1>
-          <p style={styles.heroSub}>
-            Uncompromising financial infrastructure for modern enterprises.
-            Zero fluff, total control.
-          </p>
-          <button style={styles.heroCTA}>Launch Your Account</button>
-        </div>
-        <div style={styles.heroRight}>
-          <HeroGeometry />
-          <div style={styles.statusBadge}>
-            <span style={styles.statusDot} />
-            System Status: Optimal
+        {/* READY TO SCALE */}
+        <section style={styles.ctaSection}>
+          <h2 style={styles.ctaTitle}>Ready to Scale?</h2>
+          <div style={styles.ctaButtons}>
+            <button style={styles.ctaBtnSolid}>Open Business Account</button>
+            <button style={styles.ctaBtnOutline}>Talk to an Expert</button>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* FEATURES ROW */}
-      <div style={styles.featuresRow}>
-        {/* Cash Flow - dark */}
-        <div style={styles.featureCardDark}>
-          <div style={styles.featureIconDark}>
-            <IconWallet color="#fff" />
-          </div>
-          <p style={{ ...styles.featureTitle, color: "#fff", fontSize: 18 }}>
-            Cash Flow Mastery.
-          </p>
-          <p style={styles.featureBodyDark}>
-            Real-time liquidity tracking with predictive forecasting. Every cent
-            accounted for, every move calculated.
-          </p>
-        </div>
-        {/* Multi-User */}
-        <div style={styles.featureCard}>
-          <div style={styles.featureIcon}>
-            <IconUsers color="#111" />
-          </div>
-          <p style={styles.featureTitle}>Multi–User Access.</p>
-          <p style={styles.featureBody}>
-            Delegate with precision. Granular permission levels for your entire
-            finance team and accountants.
-          </p>
-        </div>
-        {/* Seamless Sync */}
-        <div style={{ ...styles.featureCard, borderRight: "none" }}>
-          <div style={styles.featureIcon}>
-            <IconSync color="#111" />
-          </div>
-          <p style={styles.featureTitle}>Seamless Sync.</p>
-          <p style={styles.featureBody}>
-            Direct API integrations with Xero, QuickBooks, and Sage. Your
-            books, always in balance.
-          </p>
-        </div>
+        {/* FOOTER */}
+        <footer style={styles.footer}>
+          <div style={styles.footerLogo}>Mono Bank.</div>
+          <ul style={styles.footerLinks}>
+            {["Privacy Policy", "Terms of Service", "Security", "Help Center"].map(
+              (l) => (
+                <li key={l}>
+                  <a style={styles.footerLink} href="#">
+                    {l}
+                  </a>
+                </li>
+              )
+            )}
+          </ul>
+          <span style={styles.footerCopy}>© 2026 Mono Bank. Simple. Static. Secure.</span>
+        </footer>
       </div>
-
-      {/* ARCHITECTED FOR SCALABILITY */}
-      <section style={styles.scalability}>
-        <h2 style={styles.sectionTitle}>Architected for Scalability.</h2>
-        <div style={styles.scalabilityGrid}>
-          {[
-            {
-              num: "01.",
-              title: "Automation",
-              body: "Automate recurring payments and payroll with logic-based triggers.",
-            },
-            {
-              num: "02.",
-              title: "Analytics",
-              body: "Advanced data visualization for multi-entity reporting and tax prep.",
-            },
-            {
-              num: "03.",
-              title: "Security",
-              body: "Hardware-level encryption for every transaction and team login.",
-            },
-          ].map((c, i) => (
-            <div key={i} style={styles.scalabilityCard}>
-              <p style={styles.scalabilityNum}>{c.num}</p>
-              <p style={styles.scalabilityCardTitle}>{c.title}</p>
-              <p style={styles.scalabilityCardBody}>{c.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* BUSINESS PERKS */}
-      <section style={styles.perks}>
-        <h2 style={styles.perksTitle}>Business Perks.</h2>
-        <div style={styles.perksGrid}>
-          {perks.map((p, i) => (
-            <div
-              key={i}
-              style={{
-                ...styles.perkCell,
-                background: hovered === i ? "#f7f7f5" : "#fff",
-              }}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-            >
-              {p.dark ? (
-                <div style={styles.perkIconBox}>{p.icon}</div>
-              ) : (
-                <div style={styles.perkIconBoxOutline}>{p.icon}</div>
-              )}
-              <span style={styles.perkLabel}>{p.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* READY TO SCALE */}
-      <section style={styles.ctaSection}>
-        <h2 style={{ ...styles.ctaTitle, fontSize: 60 }}>Ready to Scale?</h2>
-        <div style={styles.ctaButtons}>
-          <button style={styles.ctaBtnSolid}>Open Business Account</button>
-          <button style={styles.ctaBtnOutline}>Talk to an Expert</button>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={styles.footer}>
-        <div style={styles.footerLogo}>Mono Bank.</div>
-        <ul style={styles.footerLinks}>
-          {["Privacy Policy", "Terms of Service", "Security", "Help Center"].map(
-            (l) => (
-              <li key={l}>
-                <a style={styles.footerLink} href="#">
-                  {l}
-                </a>
-              </li>
-            )
-          )}
-        </ul>
-        <span style={styles.footerCopy}>© 2024 Mono Bank. All rights reserved.</span>
-      </footer>
     </div>
   );
 }
