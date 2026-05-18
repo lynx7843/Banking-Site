@@ -24,12 +24,14 @@ function Navbar({ setPage }) {
           <li className="nav-item">
             <a href="#" className="nav-link" onClick={(e) => handleNavigation(e, 'home')}>Home</a>
           </li>
-          <li className="nav-item"><a href="#" className="nav-link">Personal</a></li>
+          <li className="nav-item">
+            <a href="#" className="nav-link" onClick={(e) => handleNavigation(e, 'personal')}>Personal</a>
+          </li>
           <li className="nav-item">
             <a href="#" className="nav-link" onClick={(e) => handleNavigation(e, 'business')}>Business</a>
           </li>
           <li className="nav-item">
-            <a href="#" className="nav-link" onClick={(e) => handleNavigation(e, 'features_content')}>Features</a>
+            <a href="#" className="nav-link">Features</a>
           </li>
         </ul>
 
