@@ -31,7 +31,7 @@ function Navbar({ setPage }) {
             <a href="#" className="nav-link" onClick={(e) => handleNavigation(e, 'business')}>Business</a>
           </li>
           <li className="nav-item">
-            <a href="#" className="nav-link">Features</a>
+            <a href="#" className="nav-link" onClick={(e) => handleNavigation(e, 'features_page')}>Features</a>
           </li>
         </ul>
 
