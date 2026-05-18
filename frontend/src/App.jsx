@@ -8,14 +8,14 @@ import Features from './Features';
 import Login from './Login';
 import Register from './Register'; // Import the new component
 import Business from './Business';
-import FeaturesContent from './Features_Content';
+import Personal from './personal';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
 
   return (
     <div className="App">
-      {currentPage !== 'login' && currentPage !== 'register' && currentPage !== 'business' && currentPage !== 'features_content' && (
+      {currentPage !== 'login' && currentPage !== 'register' && currentPage !== 'business' && currentPage !== 'personal' && (
         <Navbar setPage={setCurrentPage} />
       )}
       
@@ -39,11 +39,11 @@ function App() {
         <Business setPage={setCurrentPage} />
       )}
 
-      {currentPage === 'features_content' && (
-        <FeaturesContent setPage={setCurrentPage} />
+      {currentPage === 'personal' && (
+        <Personal setPage={setCurrentPage} />
       )}
 
-      {currentPage !== 'business' && currentPage !== 'features_content' && (
+      {currentPage !== 'business' && currentPage !== 'personal' && (
         <footer style={{borderTop: '2px solid #000', padding: '20px', textAlign: 'center', marginTop: '40px'}}>
             <p>© 2026 Mono Bank. Simple. Static. Secure.</p>
         </footer>
