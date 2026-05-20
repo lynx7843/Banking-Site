@@ -16,7 +16,7 @@ Features include secure authentication, a multi-step account creation wizard, an
 
 ## ✨ Features
 
-* MySQL database for storing user credentials
+* MongoDB atlas for data storage
 * Spring Boot REST API for handling user authentication
 * React front-end login interface
 
@@ -28,7 +28,7 @@ Features include secure authentication, a multi-step account creation wizard, an
 # 1. Clone this repository
 git clone https://github.com/lynx7843/Banking-Site.git
 
-# 2. Configure the database in MySQL
+# 2. Configure the database
 
 # 3. Run the front-end
 cd Banking-Site/frontend/src
@@ -39,11 +39,14 @@ npm run dev
 
 * Front-end: React
 * Back-end: Spring Boot
-* Database: MySQL
+* Database: MongoDB atlas
 
 ## 📷 Preview
 
-<img src="img/login.png" alt="Login">
-<img src="img/signup.png" alt="SignUp">
-<img src="img/dashboard.png" alt="Dashboard">
+<img src="img/login.png" alt="Login"> Login
+<img src="img/signup.png" alt="SignUp"> SignUp
+<img src="img/dashboard.png" alt="Dashboard"> Dashboard
+<img src="img/personal.png" alt="Personal Account"> Personal Account
+<img src="img/business.png" alt="Business Account"> Business Account
+<img src="img/features.png" alt="Features"> Features
 
