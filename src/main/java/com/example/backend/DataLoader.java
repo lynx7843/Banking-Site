@@ -1,6 +1,6 @@
 package com.example.backend;
 
-import com.example.backend.model.User;
+import com.example.backend.model.Customer;
 import com.example.backend.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ public class DataLoader {
         return args -> {
             // Check if user exists, if not, create one
             if (repository.findByUsername("GenZUser").isEmpty()) {
-                User user = new User();
+                Customer user = new Customer();
                 user.setUsername("GenZUser");
                 user.setPassword("password123"); // Matching your login.jsx hardcoded values
                 user.setFullName("Alex Morgan");
