@@ -9,13 +9,13 @@ import lombok.Data;
 public class Account {
 
     @Id
-    private String id; // Changed to String to support custom IDs like "ACC-5001"
+    private String id; // Custom IDs like "ACC-5001"
 
-    private String customerId; // Links this account to a specific customer
+    private String customerId;
     
-    private String accountType; // e.g., "Savings" or "Checking"
+    private String accountType; 
     
-    private String intention; // e.g., "Emergency Fund", "Daily Expenses"
+    private String intention; 
     
-    private Double currentBalance; // Stores the active balance for quick lookups
+    private Double currentBalance; 
 }
