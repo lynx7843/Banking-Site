@@ -1,7 +1,7 @@
 package com.example.backend;
 
 import com.example.backend.model.Customer;
-import com.example.backend.repository.UserRepository;
+import com.example.backend.repository.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class DataLoader {
 
     @Bean
-    CommandLineRunner init(UserRepository repository) {
+    CommandLineRunner init(CustomerRepository repository) {
         return args -> {
             // Check if user exists, if not, create one
             if (repository.findByUsername("GenZUser").isEmpty()) {

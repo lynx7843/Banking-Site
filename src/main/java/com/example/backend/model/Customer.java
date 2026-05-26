@@ -9,13 +9,13 @@ import lombok.Data;
 public class Customer {
 
     @Id
-    private String id; // Changed to String to support custom IDs like "CUST-1001"
+    private String id; // Custom IDs like "CUST-1001"
 
     private String name;
     
-    private String email; // Used for login
+    private String email;
     
-    private String password; // In a real app, this must be encrypted!
+    private String password;
     
     private String nic;
     
