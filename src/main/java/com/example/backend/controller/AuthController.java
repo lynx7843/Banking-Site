@@ -11,22 +11,22 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173") // Allow access from React (Vite default port)
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     @Autowired
-    private CustomerRepository userRepository;
+    private CustomerRepository customerRepository;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
-        String username = loginRequest.get("username");
+        // 1. Extract email instead of username
+        String email = loginRequest.get("email");
         String password = loginRequest.get("password");
 
-        Optional<Customer> user = userRepository.findByUsername(username);
+        Optional<Customer> customer = customerRepository.findByEmail(email);
 
-        // Simple password check (Note: In production, use BCrypt hashing)
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
-            return ResponseEntity.ok(user.get()); // Return user info on success
+        if (customer.isPresent() && customer.get().getPassword().equals(password)) {
+            return ResponseEntity.ok(customer.get());
         } else {
             return ResponseEntity.status(401).body(Map.of("message", "Invalid Credentials"));
         }
