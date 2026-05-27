@@ -19,7 +19,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
-        // 1. Extract email instead of username
         String email = loginRequest.get("email");
         String password = loginRequest.get("password");
 
