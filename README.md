@@ -20,7 +20,7 @@ Features include secure authentication, a multi-step account creation wizard, an
 * Spring Boot REST API for handling user authentication
 * React front-end login interface
 
-## 🚀 Getting Started
+## 🛠️ Getting Started
 
 ### Installation
 
@@ -31,7 +31,7 @@ git clone https://github.com/lynx7843/Banking-Site.git
 2. Configure the database
 Step 1: Create the Cluster (banking_app_db)
 Step 2: Get Your Connection String
-        Create and Insert the String under MONGO_URI Variable in .env
+        Create and Insert the String under MONGO_URI Variable inside .env
 Step 3: Create Collections
 - account_details
 - customer_info
@@ -53,10 +53,23 @@ npm run dev
 * Database: MongoDB atlas
 
 ## 📷 Preview
+<div align="center">
 
-Login <img src="img/login.png" alt="Login"> <br/>
-SignUp <img src="img/signup.png" alt="SignUp"> <br/>
-Dashboard <img src="img/dashboard.png" alt="Dashboard"> <br/>
-Personal Account <img src="img/personal.png" alt="Personal Account"> <br/>
-Business Account <img src="img/business.png" alt="Business Account"> <br/>
-Features <img src="img/features.png" alt="Features"> <br/>
+#### Login 
+<img src="img/login.png" alt="Login"> <br/>
+
+#### SignUp 
+<img src="img/signup.png" alt="SignUp"> <br/>
+
+#### Dashboard 
+<img src="img/dashboard.png" alt="Dashboard"> <br/>
+
+#### Personal Account 
+<img src="img/personal.png" alt="Personal Account"> <br/>
+
+#### Business Account 
+<img src="img/business.png" alt="Business Account"> <br/>
+
+#### Features 
+<img src="img/features.png" alt="Features"> <br/>
+</div>
