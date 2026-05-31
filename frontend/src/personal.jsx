@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 
 const APY = 0.0485;
@@ -63,9 +63,30 @@ function OrbArt() {
   );
 }
 
-export default function MonoBankFeatures({ setPage }) {
+// NEW: Added user prop
+export default function MonoBankFeatures({ setPage, user }) {
   const [deposit, setDeposit] = useState(10000);
   const [monthly, setMonthly] = useState(500);
+  
+  // NEW: Fetch balance on load
+  useEffect(() => {
+    if (user && user.id) {
+      fetch(`http://localhost:8080/api/accounts/customer/${user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          // Look for an account type containing "Saving" or "Personal"
+          const personalAcc = data.find(acc => 
+            acc.accountType.toLowerCase().includes('saving') || 
+            acc.accountType.toLowerCase().includes('personal')
+          );
+          if (personalAcc && personalAcc.currentBalance !== undefined) {
+            setDeposit(personalAcc.currentBalance); // Update slider with live balance!
+          }
+        })
+        .catch(err => console.error("Error fetching account data:", err));
+    }
+  }, [user]);
+
   const { fv, interest } = calcResults(deposit, monthly);
 
   return (
@@ -356,7 +377,8 @@ export default function MonoBankFeatures({ setPage }) {
                       <line x1="2" y1="10" x2="22" y2="10" />
                     </svg>
                     <div className="mb2-safe-label">Safe-to-Spend</div>
-                    <div className="mb2-safe-val">$2,450.00</div>
+                    {/* NEW: Displays live balance in the UI mockup if available */}
+                    <div className="mb2-safe-val">${fmt(deposit)}</div>
                   </div>
                 </div>
               </div>
@@ -383,7 +405,7 @@ export default function MonoBankFeatures({ setPage }) {
                   <li key={l}><a className="mb2-footer-link" href="#">{l}</a></li>
                 ))}
               </ul>
-              <span className="mb2-footer-copy">© 2024 Mono Bank. All rights reserved.</span>
+              <span className="mb2-footer-copy">© 2026 Mono Bank. All rights reserved.</span>
             </footer>
 
           </div>

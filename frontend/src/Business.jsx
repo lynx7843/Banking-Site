@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 
 const styles = {
@@ -419,8 +419,28 @@ function IconCloud({ color = "#111" }) {
   );
 }
 
-export default function MonoBank({ setPage }) {
+// NEW: added user prop
+export default function MonoBank({ setPage, user }) {
   const [hovered, setHovered] = useState(null);
+  
+  // NEW: Store fetched balance
+  const [balance, setBalance] = useState(null); 
+
+  // NEW: Fetch balance on load
+  useEffect(() => {
+    if (user && user.id) {
+      fetch(`http://localhost:8080/api/accounts/customer/${user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          // Look for an account type containing "Business"
+          const businessAcc = data.find(acc => acc.accountType.toLowerCase().includes('business'));
+          if (businessAcc && businessAcc.currentBalance !== undefined) {
+            setBalance(businessAcc.currentBalance);
+          }
+        })
+        .catch(err => console.error("Error fetching account data:", err));
+    }
+  }, [user]);
 
   const perks = [
     { label: "Tax Credits", icon: <IconPercent />, dark: true },
@@ -451,9 +471,11 @@ export default function MonoBank({ setPage }) {
             <h1 style={styles.heroTitle}>
               Banking Built<br />for Business.
             </h1>
+            {/* NEW: Displays live balance here if available, otherwise shows standard marketing text */}
             <p style={styles.heroSub}>
-              Uncompromising financial infrastructure for modern enterprises.
-              Zero fluff, total control.
+              {balance !== null 
+                ? `Active Business Balance: $${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}` 
+                : 'Uncompromising financial infrastructure for modern enterprises. Zero fluff, total control.'}
             </p>
             <button style={styles.heroCTA}>Start Banking</button>
           </div>
