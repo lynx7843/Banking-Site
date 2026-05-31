@@ -6,13 +6,16 @@ import Navbar from './Navbar';
 import Hero from './Hero';
 import Features from './Features';
 import Login from './Login';
-import Register from './Register'; // Import the new component
+import Register from './Register'; 
 import Business from './Business';
 import Personal from './personal';
 import FeaturesPage from './features_page';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
+  
+  // NEW: State to store the logged-in user data
+  const [user, setUser] = useState(null); 
 
   return (
     <div className="App">
@@ -22,26 +25,32 @@ function App() {
       
       {currentPage === 'home' && (
         <>
+          {/* Dashboard Header injected straight into the Home view */}
+          <div className="container" style={{ padding: '20px 0', borderBottom: '2px solid #000' }}>
+            <h2 style={{ fontSize: '2rem', fontWeight: '800' }}>
+              Welcome back, {user ? user.name : 'Guest'}.
+            </h2>
+          </div>
           <Hero />
           <Features />
         </>
       )}
 
       {currentPage === 'login' && (
-        <Login setPage={setCurrentPage} />
+        <Login setPage={setCurrentPage} setUser={setUser} />
       )}
 
-      {/* Conditionally render the new Register page */}
       {currentPage === 'register' && (
         <Register setPage={setCurrentPage} />
       )}
 
+      {/* Pass the logged-in user to your existing pages */}
       {currentPage === 'business' && (
-        <Business setPage={setCurrentPage} />
+        <Business setPage={setCurrentPage} user={user} />
       )}
 
       {currentPage === 'personal' && (
-        <Personal setPage={setCurrentPage} />
+        <Personal setPage={setCurrentPage} user={user} />
       )}
 
       {currentPage === 'features_page' && (
