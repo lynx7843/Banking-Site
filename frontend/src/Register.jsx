@@ -4,7 +4,8 @@ function Register({ setPage }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [accountType, setAccountType] = useState('personal');
+  // Updated default to exact wording
+  const [accountType, setAccountType] = useState('Personal');
   const [initialDeposit, setInitialDeposit] = useState('');
   const [expectedSavings, setExpectedSavings] = useState('');
   const [reason, setReason] = useState('');
@@ -52,7 +53,6 @@ function Register({ setPage }) {
       <div className="register-card">
         <h2 className="register-title">Open an Account.</h2>
         
-        {/* Show error message if one exists */}
         {error && <div className="error-message" style={{ margin: '20px 40px 0', color: 'red', fontWeight: 'bold' }}>{error}</div>}
         
         <form className="register-form">
@@ -105,15 +105,15 @@ function Register({ setPage }) {
               
               <div className="form-group">
                 <label className="form-label" htmlFor="accountType">Account Type</label>
+                {/* Updated Select Options */}
                 <select 
                   className="form-input form-select" 
                   id="accountType"
                   value={accountType}
                   onChange={(e) => setAccountType(e.target.value)}
                 >
-                  <option value="personal">Personal Checking</option>
-                  <option value="savings">High-Yield Savings</option>
-                  <option value="business">Business Account</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Business">Business</option>
                 </select>
               </div>
 
