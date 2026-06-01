@@ -131,7 +131,7 @@ export default function MonoBankFeatures({ setPage, user }) {
         .mb2-hero { display: grid; grid-template-columns: 1fr 1fr;
           height: calc(56.25vw - 44px - 52px); min-height: 240px; }
         .mb2-hero-left { padding: 40px 48px; display: flex; flex-direction: column;
-          justify-content: center; gap: 16px; }
+          justify-content: flex-start; gap: 16px; }
         .mb2-hero-badge { display: inline-block; background: #111; color: #fff;
           font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
           padding: 5px 10px; width: fit-content; }
