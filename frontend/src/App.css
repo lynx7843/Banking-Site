@@ -325,3 +325,11 @@ textarea.form-input {
     border-bottom: 4px solid #000;
   }
 }
+
+/* --- Footer Styling --- */
+.app-footer {
+  border-top: 2px solid #000;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+}

@@ -138,26 +138,9 @@ export default function MonoBankFeatures({ setPage, user }) {
         .mb2-hero-title { font-size: clamp(30px, 3.8vw, 56px); font-weight: 800;
           line-height: 1.0; letter-spacing: -2px; text-transform: uppercase; color: #111; }
         .mb2-hero-sub { font-size: 12px; line-height: 1.7; color: #555; max-width: 290px; }
-        .mb2-hero-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
-        .mb2-btn-hero-solid { padding: 11px 22px; background: #111; color: #fff; border: 1.5px solid #111;
-          font-family: inherit; font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
-          text-transform: uppercase; cursor: pointer; }
-        .mb2-btn-hero-outline { padding: 11px 22px; background: #fff; color: #111; border: 1.5px solid #111;
-          font-family: inherit; font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
-          text-transform: uppercase; cursor: pointer; }
+        .mb2-hero-balance-title { font-size: clamp(24px, 3.2vw, 46px); font-weight: 800; color: #111; margin-top: 24px; letter-spacing: -1px; line-height: 1; }
+        .mb2-hero-balance-val { font-size: clamp(20px, 2.5vw, 36px); font-weight: 700; color: #333; margin-top: 8px; }
         .mb2-hero-right { background: #0a0a0a; position: relative; overflow: hidden; }
-
-        /* Stats bar */
-        .mb2-stats { background: #111; display: grid; grid-template-columns: repeat(4, 1fr);
-          padding: 12px 44px; height: 52px; flex-shrink: 0; }
-        .mb2-stat { display: flex; flex-direction: column; justify-content: center;
-          border-right: 1px solid #2a2a2a; padding: 0 20px; }
-        .mb2-stat:first-child { padding-left: 0; }
-        .mb2-stat:last-child { border-right: none; }
-        .mb2-stat-label { font-size: 7.5px; font-weight: 700; letter-spacing: 1.5px;
-          text-transform: uppercase; color: #555; margin-bottom: 1px; }
-        .mb2-stat-value { font-size: 17px; font-weight: 800; letter-spacing: -0.5px;
-          color: #fff; text-transform: uppercase; line-height: 1; }
 
         /* Compounder */
         .mb2-compounder { padding: 56px 48px; text-align: center; border-top: 1px solid #e5e5e5; }
@@ -206,21 +189,6 @@ export default function MonoBankFeatures({ setPage, user }) {
           text-transform: uppercase; color: #aaa; margin-bottom: 5px; margin-top: 8px; }
         .mb2-safe-val { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: #111; }
 
-        /* CTA */
-        .mb2-cta { padding: 56px 48px; border-top: 1px solid #e5e5e5;
-          display: flex; justify-content: center; }
-        .mb2-cta-box { border: 1px solid #d8d8d8; padding: 48px 60px; text-align: center;
-          max-width: 560px; width: 100%; }
-        .mb2-cta-title { font-size: 24px; font-weight: 800; letter-spacing: -0.8px;
-          text-transform: uppercase; margin-bottom: 12px; color: #111; }
-        .mb2-cta-sub { font-size: 12px; line-height: 1.7; color: #777;
-          max-width: 360px; margin: 0 auto 28px; }
-        .mb2-btn-cta { display: block; margin: 0 auto 12px; padding: 13px 36px;
-          background: #111; color: #fff; border: none; font-family: inherit;
-          font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
-        .mb2-cta-fdic { font-size: 8.5px; font-weight: 700; letter-spacing: 1.5px;
-          text-transform: uppercase; color: #bbb; }
-
         /* Footer */
         .mb2-footer { border-top: 1px solid #e5e5e5; padding: 20px 44px;
           display: flex; align-items: center; justify-content: space-between; }
@@ -247,30 +215,13 @@ export default function MonoBankFeatures({ setPage, user }) {
                   High-yield accounts engineered for clarity. No hidden tiers, no complex
                   requirements, just pure financial growth through automated precision.
                 </p>
-                <div className="mb2-hero-buttons">
-                  <button className="mb2-btn-hero-solid">Start Saving</button>
-                  <button className="mb2-btn-hero-outline">View Rates</button>
-                </div>
+                <div className="mb2-hero-balance-title">YOUR CURRENT<br /> BALANCE</div>
+                <div className="mb2-hero-balance-val">RS. 0.00</div>
               </div>
               <div className="mb2-hero-right">
                 <OrbArt />
               </div>
             </section>
-
-            {/* ── STATS BAR ── */}
-            <div className="mb2-stats">
-              {[
-                { label: "Annual Yield",     value: "4.85% APY" },
-                { label: "Minimum Balance",  value: "$0.00"     },
-                { label: "Monthly Fees",     value: "Zero"      },
-                { label: "Transfer Limit",   value: "Unlimited" },
-              ].map(({ label, value }) => (
-                <div className="mb2-stat" key={label}>
-                  <div className="mb2-stat-label">{label}</div>
-                  <div className="mb2-stat-value">{value}</div>
-                </div>
-              ))}
-            </div>
 
             {/* ── THE COMPOUNDER ── */}
             <section className="mb2-compounder">
@@ -282,7 +233,7 @@ export default function MonoBankFeatures({ setPage, user }) {
                 {/* Deposit slider */}
                 <div className="mb2-calc-row">
                   <span className="mb2-calc-label">Initial Deposit</span>
-                  <span className="mb2-calc-val">${deposit.toLocaleString()}</span>
+                  <span className="mb2-calc-val">Rs. {deposit.toLocaleString()}</span>
                 </div>
                 <input
                   type="range"
@@ -297,7 +248,7 @@ export default function MonoBankFeatures({ setPage, user }) {
                 {/* Monthly slider */}
                 <div className="mb2-calc-row">
                   <span className="mb2-calc-label">Monthly Contribution</span>
-                  <span className="mb2-calc-val">${monthly.toLocaleString()}</span>
+                  <span className="mb2-calc-val">Rs. {monthly.toLocaleString()}</span>
                 </div>
                 <input
                   type="range"
@@ -312,11 +263,11 @@ export default function MonoBankFeatures({ setPage, user }) {
                 <div className="mb2-calc-results">
                   <div>
                     <div className="mb2-result-label">Balance After 5 Years</div>
-                    <div className="mb2-result-val">${fmt(fv)}</div>
+                    <div className="mb2-result-val">Rs. {fmt(fv)}</div>
                   </div>
                   <div>
                     <div className="mb2-result-label">Total Interest Earned</div>
-                    <div className="mb2-result-val">${fmt(interest)}</div>
+                    <div className="mb2-result-val">Rs. {fmt(interest)}</div>
                   </div>
                 </div>
               </div>
@@ -378,24 +329,11 @@ export default function MonoBankFeatures({ setPage, user }) {
                     </svg>
                     <div className="mb2-safe-label">Safe-to-Spend</div>
                     {/* NEW: Displays live balance in the UI mockup if available */}
-                    <div className="mb2-safe-val">${fmt(deposit)}</div>
+                    <div className="mb2-safe-val">Rs. {fmt(deposit)}</div>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* ── CTA ── */}
-            <section className="mb2-cta">
-              <div className="mb2-cta-box">
-                <h2 className="mb2-cta-title">Ready to Scale Your Capital?</h2>
-                <p className="mb2-cta-sub">
-                  Join 200,000+ Mono Bank users who have optimized their savings
-                  with our radical transparency model.
-                </p>
-                <button className="mb2-btn-cta">Create Your Vault</button>
-                <div className="mb2-cta-fdic">FDIC Insured Up to $250,000</div>
-              </div>
-            </section>
 
             {/* ── FOOTER ── */}
             <footer className="mb2-footer">

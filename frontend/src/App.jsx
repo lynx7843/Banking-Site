@@ -58,7 +58,7 @@ function App() {
       )}
 
       {currentPage !== 'business' && currentPage !== 'personal' && currentPage !== 'features_page' && (
-        <footer style={{borderTop: '2px solid #000', padding: '20px', textAlign: 'center', marginTop: '40px'}}>
+        <footer className="app-footer">
             <p>© 2026 Mono Bank. Simple. Static. Secure.</p>
         </footer>
       )}
