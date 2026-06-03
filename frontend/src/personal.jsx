@@ -124,8 +124,12 @@ export default function MonoBankFeatures({ setPage, user }) {
           font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
           color: #111; padding: 6px 14px; cursor: pointer; }
         .mb2-btn-solid { background: #111; border: 1.5px solid #111; color: #fff;
-          font-family: inherit; font-size: 10px; font-weight: 800; letter-spacing: 0.8px;
-          text-transform: uppercase; padding: 7px 16px; cursor: pointer; }
+          font-family: inherit; font-size: 20px; font-weight: 800; letter-spacing: 0.8px;
+          text-transform: uppercase; padding: 10px 24px; cursor: pointer; }
+        .mb2-btn-outline { background: #fff; border: 1.5px solid #111; color: #111;
+          font-family: inherit; font-size: 20px; font-weight: 800; letter-spacing: 0.8px;
+          text-transform: uppercase; padding: 10px 24px; cursor: pointer; }
+        .mb2-hero-action-btns { display: flex; gap: 12px; margin-top: 24px; }
 
         /* Hero */
         .mb2-hero { display: grid; grid-template-columns: 1fr 1fr;
@@ -217,6 +221,10 @@ export default function MonoBankFeatures({ setPage, user }) {
                 </p>
                 <div className="mb2-hero-balance-title">YOUR CURRENT<br /> BALANCE</div>
                 <div className="mb2-hero-balance-val">RS. 0.00</div>
+                <div className="mb2-hero-action-btns">
+                  <button className="mb2-btn-outline" onClick={() => setPage('deposit')}>Deposit</button>
+                  <button className="mb2-btn-solid" onClick={() => setPage('payment')}>Payment</button>
+                </div>
               </div>
               <div className="mb2-hero-right">
                 <OrbArt />
