@@ -1,17 +1,110 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 
 export default function MonoBankPayment({ setPage, user }) {
-  const [payFrom, setPayFrom] = useState("Personal");
+  const [payFrom, setPayFrom] = useState("");
   const [bankName, setBankName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [beneficiaryName, setBeneficiaryName] = useState("");
   const [amount, setAmount] = useState("");
   const [remark, setRemark] = useState("");
 
+  // NEW: State to hold database account details
+  const [account, setAccount] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // NEW: Fetch the account data on load
+  useEffect(() => {
+    if (user && user.id) {
+      fetch(`http://localhost:8080/api/accounts/customer/${user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            const userAccount = data[0];
+            setAccount(userAccount);
+
+            // Auto-select dropdown based on DB accountType
+            if (userAccount.accountType.toLowerCase() === 'personal') {
+              setPayFrom('Personal');
+            } else if (userAccount.accountType.toLowerCase() === 'business') {
+              setPayFrom('Business');
+            }
+          }
+        })
+        .catch(err => console.error("Error fetching account data:", err));
+    }
+  }, [user]);
+
   const handleAmountChange = (e) => {
     const val = e.target.value.replace(/[^0-9.]/g, "");
     setAmount(val);
+  };
+
+  // NEW: Handle payment deduction to MongoDB
+  const handlePaymentSubmit = async () => {
+    if (!account) return;
+    if (!bankName || !accountNumber || !beneficiaryName || !amount) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const paymentAmount = parseFloat(amount);
+    if (isNaN(paymentAmount) || paymentAmount <= 0) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+
+    // Guard to ensure they don't over-draft their account
+    if (paymentAmount > account.currentBalance) {
+      alert("Insufficient funds for this transaction.");
+      return;
+    }
+
+    setIsLoading(true);
+    const newBalance = account.currentBalance - paymentAmount;
+
+    try {
+      // 1. Post transaction record 
+      try {
+        await fetch('http://localhost:8080/api/transactions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            accountId: account.id,
+            type: 'DEBIT',
+            amount: paymentAmount,
+            description: `Payment to ${beneficiaryName} (${bankName})`
+          })
+        });
+      } catch (e) {
+        console.log("Transaction logging skipped.");
+      }
+
+      // 2. Deduct and Update the account balance in MongoDB
+      const updatedAccount = { ...account, currentBalance: newBalance };
+      const response = await fetch('http://localhost:8080/api/accounts/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedAccount)
+      });
+
+      if (response.ok) {
+        setAccount(updatedAccount);
+        setAmount("");
+        setBankName("");
+        setAccountNumber("");
+        setBeneficiaryName("");
+        setRemark("");
+        alert("Payment Successful!");
+      } else {
+        alert("Failed to process payment.");
+      }
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert("Connection error. Is Spring Boot running?");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -99,8 +192,13 @@ export default function MonoBankPayment({ setPage, user }) {
                       cursor: "pointer"
                     }}
                   >
-                    <option value="Personal">Personal</option>
-                    <option value="Business">Business</option>
+                    {/* Filtered dropdown options based on the DB accountType */}
+                    {account?.accountType?.toLowerCase() === 'personal' && (
+                      <option value="Personal">Personal</option>
+                    )}
+                    {account?.accountType?.toLowerCase() === 'business' && (
+                      <option value="Business">Business</option>
+                    )}
                   </select>
                   <svg style={{ position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
                     width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2">
@@ -207,17 +305,22 @@ export default function MonoBankPayment({ setPage, user }) {
 
             <div style={{ borderTop: "1px solid #eee", paddingTop: "28px", display: "flex", justifyContent: "flex-end" }}>
               <button
+                onClick={handlePaymentSubmit}
+                disabled={isLoading}
                 style={{
-                  background: "#111", color: "#fff", border: "none",
+                  background: isLoading ? "#ccc" : "#111", 
+                  color: "#fff", border: "none",
                   padding: "18px 40px", fontSize: "14px", fontWeight: 800,
-                  letterSpacing: "0.1em", cursor: "pointer", fontFamily: "inherit",
+                  letterSpacing: "0.1em", 
+                  cursor: isLoading ? "not-allowed" : "pointer", 
+                  fontFamily: "inherit",
                   display: "flex", alignItems: "center", gap: "12px",
                   transition: "background 0.2s"
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = "#333"}
-                onMouseLeave={(e) => e.currentTarget.style.background = "#111"}
+                onMouseEnter={(e) => { if(!isLoading) e.currentTarget.style.background = "#333" }}
+                onMouseLeave={(e) => { if(!isLoading) e.currentTarget.style.background = "#111" }}
               >
-                CONFIRM PAYMENT
+                {isLoading ? "PROCESSING..." : "CONFIRM PAYMENT"}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5">
                   <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                 </svg>
