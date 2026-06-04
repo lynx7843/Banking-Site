@@ -1,9 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-
-const styles = {
-  "@import": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap",
-};
 
 export default function MonoBankDeposit({ setPage, user }) {
   const [sourceOfFunds, setSourceOfFunds] = useState("");
@@ -11,7 +7,36 @@ export default function MonoBankDeposit({ setPage, user }) {
   const [depositTo, setDepositTo] = useState("");
   const [confirmed, setConfirmed] = useState(false);
 
-  const currentBalance = "1,240,500.00";
+  // NEW: State to hold database account details and loading status
+  const [account, setAccount] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // NEW: Fetch the account data on load
+  useEffect(() => {
+    if (user && user.id) {
+      fetch(`http://localhost:8080/api/accounts/customer/${user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            const userAccount = data[0];
+            setAccount(userAccount);
+
+            // Auto-select the correct dropdown option based on their DB accountType
+            if (userAccount.accountType.toLowerCase() === 'personal') {
+              setDepositTo('personal');
+            } else if (userAccount.accountType.toLowerCase() === 'business') {
+              setDepositTo('business');
+            }
+          }
+        })
+        .catch(err => console.error("Error fetching account data:", err));
+    }
+  }, [user]);
+
+  // Dynamically format the balance from the database
+  const currentBalanceFormatted = account && account.currentBalance !== undefined 
+    ? account.currentBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    : "0.00";
 
   const handleAmountChange = (e) => {
     const val = e.target.value.replace(/[^0-9.]/g, "");
@@ -19,6 +44,60 @@ export default function MonoBankDeposit({ setPage, user }) {
   };
 
   const displayAmount = amount === "" ? "" : amount;
+
+  // NEW: Handle the deposit submission
+  const handleDepositSubmit = async () => {
+    if (!confirmed) return; // Guard clause to ensure checkbox is clicked
+    if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+
+    setIsLoading(true);
+    const depositAmount = parseFloat(amount);
+    const newBalance = account.currentBalance + depositAmount;
+
+    try {
+      // 1. Post a transaction record (silently fails if TransactionController isn't ready)
+      try {
+        await fetch('http://localhost:8080/api/transactions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            accountId: account.id,
+            type: 'CREDIT',
+            amount: depositAmount,
+            description: `Deposit: ${sourceOfFunds || 'Direct Deposit'}`
+          })
+        });
+      } catch (e) {
+        console.log("Transaction logging skipped.");
+      }
+
+      // 2. Update the actual balance in the Account_Details collection
+      const updatedAccount = { ...account, currentBalance: newBalance };
+      const response = await fetch('http://localhost:8080/api/accounts/apply', {
+        method: 'POST', // Saves the updated object back to MongoDB
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedAccount)
+      });
+
+      if (response.ok) {
+        setAccount(updatedAccount); // Updates the UI instantly
+        setAmount("");
+        setSourceOfFunds("");
+        setConfirmed(false);
+        alert("Deposit Successful!");
+      } else {
+        alert("Failed to process the deposit.");
+      }
+    } catch (err) {
+      console.error("Deposit error:", err);
+      alert("Connection error. Is Spring Boot running?");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div style={{ fontFamily: "'Space Grotesk', sans-serif", minHeight: "100vh", background: "#f5f5f3", color: "#111" }}>
@@ -121,11 +200,12 @@ export default function MonoBankDeposit({ setPage, user }) {
                 </div>
                 <div style={{ border: "1px solid #ddd", background: "#f5f5f3", padding: "14px 16px" }}>
                   <div style={{ fontSize: "10px", color: "#888", fontWeight: 600, letterSpacing: "0.1em", marginBottom: "6px" }}>CURRENT BALANCE</div>
-                  <div style={{ fontSize: "22px", fontWeight: 800, letterSpacing: "-0.5px" }}>{currentBalance}</div>
+                  {/* Displays live balance formatted from Database */}
+                  <div style={{ fontSize: "22px", fontWeight: 800, letterSpacing: "-0.5px" }}>{currentBalanceFormatted}</div>
                 </div>
               </div>
 
-              {/* Deposit To Dropdown */}
+              {/* Deposit To Dropdown - Restricted based on Database value */}
               <label style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", display: "block", marginBottom: "8px" }}>
                 DEPOSIT TO
               </label>
@@ -144,8 +224,12 @@ export default function MonoBankDeposit({ setPage, user }) {
                 }}
               >
                 <option value="" disabled>SELECT ACCOUNT TYPE</option>
-                <option value="personal">PERSONAL ACCOUNT</option>
-                <option value="business">BUSINESS ACCOUNT</option>
+                {account?.accountType?.toLowerCase() === 'personal' && (
+                  <option value="personal">PERSONAL ACCOUNT</option>
+                )}
+                {account?.accountType?.toLowerCase() === 'business' && (
+                  <option value="business">BUSINESS ACCOUNT</option>
+                )}
               </select>
             </div>
 
@@ -176,16 +260,20 @@ export default function MonoBankDeposit({ setPage, user }) {
 
             {/* Submit Button */}
             <button
+              onClick={handleDepositSubmit}
+              disabled={!confirmed || isLoading}
               style={{
-                width: "100%", padding: "22px", background: "#111",
+                width: "100%", padding: "22px", 
+                background: confirmed ? "#111" : "#ccc",
                 color: "#fff", border: "none", fontSize: "14px",
-                fontWeight: 800, letterSpacing: "0.12em", cursor: "pointer",
+                fontWeight: 800, letterSpacing: "0.12em", 
+                cursor: confirmed ? "pointer" : "not-allowed",
                 fontFamily: "inherit", transition: "background 0.2s"
               }}
-              onMouseEnter={(e) => e.target.style.background = "#333"}
-              onMouseLeave={(e) => e.target.style.background = "#111"}
+              onMouseEnter={(e) => { if(confirmed) e.target.style.background = "#333" }}
+              onMouseLeave={(e) => { if(confirmed) e.target.style.background = "#111" }}
             >
-              SUBMIT DEPOSIT
+              {isLoading ? "PROCESSING..." : "SUBMIT DEPOSIT"}
             </button>
           </div>
         </div>
