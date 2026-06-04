@@ -73,7 +73,12 @@ export default function MonoBankPayment({ setPage, user }) {
             accountId: account.id,
             type: 'DEBIT',
             amount: paymentAmount,
-            description: `Payment to ${beneficiaryName} (${bankName})`
+            description: `Payment to ${beneficiaryName} (${bankName})`,
+            // --- ADD THESE NEW LINES ---
+            bankName: bankName,
+            accountNumber: accountNumber,
+            beneficiaryName: beneficiaryName,
+            remark: remark
           })
         });
       } catch (e) {
