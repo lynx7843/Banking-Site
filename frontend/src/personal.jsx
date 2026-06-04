@@ -68,6 +68,8 @@ export default function MonoBankFeatures({ setPage, user }) {
   const [deposit, setDeposit] = useState(10000);
   const [monthly, setMonthly] = useState(500);
   
+  const [actualBalance, setActualBalance] = useState(0); 
+  
   // NEW: Fetch balance on load
   useEffect(() => {
     if (user && user.id) {
@@ -81,6 +83,7 @@ export default function MonoBankFeatures({ setPage, user }) {
           );
           if (personalAcc && personalAcc.currentBalance !== undefined) {
             setDeposit(personalAcc.currentBalance); // Update slider with live balance!
+            setActualBalance(personalAcc.currentBalance);
           }
         })
         .catch(err => console.error("Error fetching account data:", err));
@@ -220,7 +223,11 @@ export default function MonoBankFeatures({ setPage, user }) {
                   requirements, just pure financial growth through automated precision.
                 </p>
                 <div className="mb2-hero-balance-title">YOUR CURRENT<br /> BALANCE</div>
-                <div className="mb2-hero-balance-val">RS. 0.00</div>
+                {/* THIS IS THE ONLY CHANGE MADE TO THE RENDERED HTML. 
+                  Replaced hardcoded "RS. 0.00" with the dynamic `{fmt(actualBalance)}` state value.
+                */}
+                <div className="mb2-hero-balance-val">Rs. {fmt(actualBalance)}</div>
+                
                 <div className="mb2-hero-action-btns">
                   <button className="mb2-btn-outline" onClick={() => setPage('deposit')}>Deposit</button>
                   <button className="mb2-btn-solid" onClick={() => setPage('payment')}>Payment</button>

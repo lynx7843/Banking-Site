@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Navbar from "./Navbar";
 
-export default function MonoBankPayment() {
+export default function MonoBankPayment({ setPage, user }) {
   const [payFrom, setPayFrom] = useState("Personal");
   const [bankName, setBankName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
@@ -25,30 +26,7 @@ export default function MonoBankPayment() {
       `}</style>
 
       {/* Navbar */}
-      <nav style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0 48px", height: "64px", background: "#fff",
-        borderBottom: "1px solid #ddd", position: "sticky", top: 0, zIndex: 100
-      }}>
-        <span style={{ fontWeight: 800, fontSize: "18px", letterSpacing: "-0.5px" }}>MONO BANK.</span>
-        <div style={{ display: "flex", gap: "36px", fontSize: "13px", fontWeight: 500, letterSpacing: "0.05em" }}>
-          {["HOME", "PERSONAL", "BUSINESS", "FEATURES"].map((item) => (
-            <span key={item} style={{
-              cursor: "pointer",
-              borderBottom: item === "PERSONAL" ? "2px solid #111" : "none",
-              paddingBottom: "2px"
-            }}>{item}</span>
-          ))}
-        </div>
-        <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-          <span style={{ fontSize: "13px", fontWeight: 500, cursor: "pointer", letterSpacing: "0.05em" }}>LOG IN</span>
-          <button style={{
-            background: "#111", color: "#fff", border: "none",
-            padding: "10px 20px", fontSize: "12px", fontWeight: 700,
-            letterSpacing: "0.08em", cursor: "pointer", fontFamily: "inherit"
-          }}>OPEN ACCOUNT</button>
-        </div>
-      </nav>
+      <Navbar setPage={setPage} />
 
       {/* Main */}
       <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "48px 24px 80px" }}>
