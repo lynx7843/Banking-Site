@@ -8,6 +8,15 @@ function Navbar({ setPage }) {
     setPage(pageName);  
   };
 
+  // Define inline style for the Sign Out button
+  const signOutBtnStyle = {
+    background: '#fff',
+    color: '#111',
+    // Adjusted border to 1.5px to match typical outlines and prevent size shift
+    border: '1.5px solid #111', 
+    marginLeft: '12px'
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container container">
@@ -42,6 +51,14 @@ function Navbar({ setPage }) {
             onClick={(e) => handleNavigation(e, 'register')}
           >
             Open Account
+          </a>
+          <a 
+            href="#"
+            className="btn btn-primary"
+            style={signOutBtnStyle}
+            onClick={(e) => handleNavigation(e, 'login')}
+          >
+            Sign Out
           </a>
         </div>
       </div>

@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 
 const styles = {
-  // Added height constraint and overflowY auto to make the page scrollable 
-  // without squishing, and max-width to match the dashboard aspect ratio.
   pageWrapper: {
     width: "100vw",
     height: "100vh",
@@ -17,12 +15,10 @@ const styles = {
     background: "#fff",
     margin: "0 auto",
     padding: 0,
-    maxWidth: "1440px", // Centers and constraints width like the dashboard
+    maxWidth: "1440px", 
     minHeight: "100%",
     position: "relative",
   },
-
-  // Hero
   hero: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
@@ -76,7 +72,7 @@ const styles = {
     width: "fit-content",
   },
   heroBalanceTitle: {
-    fontSize: 24, // Adjusted from clamp(24px, 3.2vw, 46px) for business page
+    fontSize: 24, 
     fontWeight: 800,
     color: "#111",
     marginTop: 24,
@@ -84,8 +80,10 @@ const styles = {
     lineHeight: 1,
   },
   heroBalanceVal: {
-    fontSize: 36, // Adjusted from clamp(20px, 2.5vw, 36px) for business page
-    fontWeight: 700, color: "#333", marginTop: 8,
+    fontSize: 36, 
+    fontWeight: 700, 
+    color: "#333", 
+    marginTop: 8,
   },
   heroCTAGroup: {
     display: "flex",
@@ -132,8 +130,6 @@ const styles = {
     borderRadius: "50%",
     background: "#4ade80",
   },
-
-  // Features row
   featuresHeader: {
     textAlign: "center",
     padding: "80px 0 40px 0",
@@ -203,16 +199,12 @@ const styles = {
     color: "#aaa",
     margin: 0,
   },
-
-  // Shared Section Styles
   sectionTitle: {
     fontSize: 32,
     fontWeight: 800,
     letterSpacing: "-1px",
     margin: "0 0 48px",
   },
-
-  // Business Perks
   perks: {
     padding: "80px 60px",
     borderTop: "1px solid #e5e5e5",
@@ -262,8 +254,6 @@ const styles = {
     color: "#111",
     textAlign: "center",
   },
-
-  // CTA
   ctaSection: {
     padding: "100px 60px",
     textAlign: "center",
@@ -301,8 +291,6 @@ const styles = {
     border: "1px solid #fff",
     cursor: "pointer",
   },
-
-  // Footer
   footer: {
     borderTop: "1px solid #e5e5e5",
     padding: "40px 60px",
@@ -446,31 +434,35 @@ function IconCloud({ color = "#111" }) {
   );
 }
 
-// NEW: added user prop
 export default function MonoBank({ setPage, user }) {
   const [hovered, setHovered] = useState(null);
   
-  // NEW: Store fetched balance
-  // balance is used for the smaller sub-text, actualBusinessBalance for the large display
+  // States to manage business account data visibility
   const [balance, setBalance] = useState(null);
   const [actualBusinessBalance, setActualBusinessBalance] = useState(0);
+  const [hasBusinessAccount, setHasBusinessAccount] = useState(false); // Controls rendering of balance/buttons
 
-  // NEW: Fetch balance on load
   useEffect(() => {
     if (user && user.id) {
       fetch(`http://localhost:8080/api/accounts/customer/${user.id}`)
         .then(res => res.json())
-        .then(data => { // Ensure data is an array before attempting to find
+        .then(data => { 
           if (!Array.isArray(data)) {
             console.error("Fetched data is not an array:", data);
-            setBalance(null); // Reset balance if data is invalid
+            setBalance(null); 
             setActualBusinessBalance(0);
+            setHasBusinessAccount(false);
             return;
           }
-          // Look for an account type containing "Business"
+          // Find if the user has a business account
           const businessAcc = data.find(acc => acc.accountType.toLowerCase().includes('business'));
+          
           if (businessAcc && businessAcc.currentBalance !== undefined) {
             setBalance(businessAcc.currentBalance);
+            setActualBusinessBalance(businessAcc.currentBalance);
+            setHasBusinessAccount(true); // Account found, enable buttons and balance
+          } else {
+            setHasBusinessAccount(false); // Account not found, hide UI elements
           }
         })
         .catch(err => console.error("Error fetching account data:", err));
@@ -506,23 +498,27 @@ export default function MonoBank({ setPage, user }) {
             <h1 style={styles.heroTitle}>
               Banking Built<br />for Business.
             </h1>
-            {/* NEW: Displays live balance here if available, otherwise shows standard marketing text */}
+            
             <p style={styles.heroSub}>
               {balance !== null 
-                ? `Active Business Balance: $${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}` 
+                ? `Active Business Balance: Rs. ${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}` 
                 : 'Uncompromising financial infrastructure for modern enterprises. Zero fluff, total control.'}
             </p>
-            {/* Added current account balance display */}
-            <div style={styles.heroBalanceTitle}>YOUR CURRENT<br />ACCOUNT BALANCE</div>
-            <div style={styles.heroBalanceVal}>
-              Rs. {actualBusinessBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </div>
+            
+            {/* Conditional Rendering: Only show if the user has a Business account */}
+            {hasBusinessAccount && (
+              <>
+                <div style={styles.heroBalanceTitle}>YOUR CURRENT<br />ACCOUNT BALANCE</div>
+                <div style={styles.heroBalanceVal}>
+                  Rs. {actualBusinessBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
 
-            {/* ORIGINAL CTA buttons */}
-            <div style={{...styles.heroCTAGroup, marginTop: '24px'}}>
-              <button style={styles.heroBtnOutlineDark} onClick={() => setPage('payment')}>Payment</button>
-              <button style={styles.heroCTA} onClick={() => setPage('deposit')}>Deposit</button>
-            </div>
+                <div style={{...styles.heroCTAGroup, marginTop: '24px'}}>
+                  <button style={styles.heroBtnOutlineDark} onClick={() => setPage('payment')}>Payment</button>
+                  <button style={styles.heroCTA} onClick={() => setPage('deposit')}>Deposit</button>
+                </div>
+              </>
+            )}
 
           </div>
           <div style={styles.heroRight}>
@@ -534,7 +530,7 @@ export default function MonoBank({ setPage, user }) {
           </div>
         </section>
 
-        {/* FEATURES ROW (Aligned with Dashboard style) */}
+        {/* FEATURES ROW */}
         <div style={styles.featuresHeader}>
             <h2 style={styles.featuresTitle}>Designed for Efficiency.</h2>
             <p style={styles.featuresSub}>Everything you need to keep your business in the black.</p>
@@ -551,7 +547,7 @@ export default function MonoBank({ setPage, user }) {
               around the world.
             </p>
           </div>
-          {/* Cash Flow Mastery - dark */}
+          {/* Cash Flow Mastery */}
           <div style={styles.featureCardDark}>
             <div style={styles.featureIcon}>
               <IconSync color="#fff" />
