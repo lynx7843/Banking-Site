@@ -75,6 +75,33 @@ const styles = {
     border: "none",
     width: "fit-content",
   },
+  heroBalanceTitle: {
+    fontSize: 24, // Adjusted from clamp(24px, 3.2vw, 46px) for business page
+    fontWeight: 800,
+    color: "#111",
+    marginTop: 24,
+    letterSpacing: "-1px",
+    lineHeight: 1,
+  },
+  heroBalanceVal: {
+    fontSize: 36, // Adjusted from clamp(20px, 2.5vw, 36px) for business page
+    fontWeight: 700, color: "#333", marginTop: 8,
+  },
+  heroCTAGroup: {
+    display: "flex",
+    gap: 16,
+  },
+  heroBtnOutlineDark: {
+    padding: "14px 28px",
+    background: "#fff",
+    color: "#111",
+    fontSize: 11,
+    fontWeight: 700,
+    letterSpacing: "1.5px",
+    cursor: "pointer",
+    border: "1px solid #111",
+    width: "fit-content",
+  },
   heroRight: {
     background: "#111",
     position: "relative",
@@ -424,14 +451,22 @@ export default function MonoBank({ setPage, user }) {
   const [hovered, setHovered] = useState(null);
   
   // NEW: Store fetched balance
-  const [balance, setBalance] = useState(null); 
+  // balance is used for the smaller sub-text, actualBusinessBalance for the large display
+  const [balance, setBalance] = useState(null);
+  const [actualBusinessBalance, setActualBusinessBalance] = useState(0);
 
   // NEW: Fetch balance on load
   useEffect(() => {
     if (user && user.id) {
       fetch(`http://localhost:8080/api/accounts/customer/${user.id}`)
         .then(res => res.json())
-        .then(data => {
+        .then(data => { // Ensure data is an array before attempting to find
+          if (!Array.isArray(data)) {
+            console.error("Fetched data is not an array:", data);
+            setBalance(null); // Reset balance if data is invalid
+            setActualBusinessBalance(0);
+            return;
+          }
           // Look for an account type containing "Business"
           const businessAcc = data.find(acc => acc.accountType.toLowerCase().includes('business'));
           if (businessAcc && businessAcc.currentBalance !== undefined) {
@@ -477,7 +512,18 @@ export default function MonoBank({ setPage, user }) {
                 ? `Active Business Balance: $${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}` 
                 : 'Uncompromising financial infrastructure for modern enterprises. Zero fluff, total control.'}
             </p>
-            <button style={styles.heroCTA}>Start Banking</button>
+            {/* Added current account balance display */}
+            <div style={styles.heroBalanceTitle}>YOUR CURRENT<br />ACCOUNT BALANCE</div>
+            <div style={styles.heroBalanceVal}>
+              Rs. {actualBusinessBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+
+            {/* ORIGINAL CTA buttons */}
+            <div style={{...styles.heroCTAGroup, marginTop: '24px'}}>
+              <button style={styles.heroBtnOutlineDark} onClick={() => setPage('payment')}>Payment</button>
+              <button style={styles.heroCTA} onClick={() => setPage('deposit')}>Deposit</button>
+            </div>
+
           </div>
           <div style={styles.heroRight}>
             <HeroGeometry />
@@ -560,8 +606,10 @@ export default function MonoBank({ setPage, user }) {
         <section style={styles.ctaSection}>
           <h2 style={styles.ctaTitle}>Ready to Scale?</h2>
           <div style={styles.ctaButtons}>
-            <button style={styles.ctaBtnSolid}>Open Business Account</button>
-            <button style={styles.ctaBtnOutline}>Talk to an Expert</button>
+            <button
+              style={styles.ctaBtnSolid}
+              onClick={() => setPage('register')}
+            >Open Business Account</button>
           </div>
         </section>
 
