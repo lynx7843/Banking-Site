@@ -1,4 +1,5 @@
 import Navbar from "./Navbar";
+import "./App.css";
 
 /* ─── credit card SVG art ─── */
 function CardArt() {
@@ -89,98 +90,6 @@ function WorldMapBg() {
 export default function MonoBankGlobal({ setPage }) {
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        .mbg-root { font-family: 'DM Sans', sans-serif; color: #111; background: #fff; }
-        .mbg-screen { position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden; }
-        .mbg-inner { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; background: #fff; }
-        .mbg-inner::-webkit-scrollbar { width: 5px; }
-        .mbg-inner::-webkit-scrollbar-thumb { background: #bbb; }
-
-        /* NAV */
-        .mbg-nav { display:flex; align-items:center; justify-content:space-between;
-          padding:0 44px; height:44px; border-bottom:1px solid #e5e5e5;
-          background:#fff; position:sticky; top:0; z-index:100; }
-        .mbg-logo { font-weight:800; font-size:16px; letter-spacing:-.5px; text-transform:uppercase; }
-        .mbg-nav-links { display:flex; gap:28px; list-style:none; }
-        .mbg-nav-link { font-size:11px; font-weight:500; letter-spacing:.8px; text-transform:uppercase;
-          color:#888; text-decoration:none; cursor:pointer; }
-        .mbg-nav-link.active { color:#111; font-weight:700;
-          text-decoration:underline; text-underline-offset:4px; }
-        .mbg-nav-right { display:flex; align-items:center; gap:8px; }
-        .mbg-btn-ghost { background:none; border:none; font-family:inherit; font-size:11px;
-          font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:#111; padding:6px 14px; cursor:pointer; }
-        .mbg-btn-nav-solid { background:#111; border:1.5px solid #111; color:#fff; font-family:inherit;
-          font-size:10px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; padding:7px 16px; cursor:pointer; }
-
-        /* HERO */
-        .mbg-hero { display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid #e5e5e5; }
-        .mbg-hero-left { padding:48px 48px; display:flex; flex-direction:column; justify-content:center; gap:18px; }
-        .mbg-badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:2px;
-          text-transform:uppercase; color:#888; width:fit-content; }
-        .mbg-hero-title { font-size:clamp(28px,3.8vw,52px); font-weight:800; line-height:1.04;
-          letter-spacing:-1.5px; color:#111; }
-        .mbg-hero-sub { font-size:12px; line-height:1.7; color:#555; max-width:280px; }
-        .mbg-hero-btns { display:flex; gap:10px; flex-wrap:wrap; }
-        .mbg-btn-solid { padding:11px 22px; background:#111; color:#fff; border:1.5px solid #111;
-          font-family:inherit; font-size:10px; font-weight:800; letter-spacing:1.5px;
-          text-transform:uppercase; cursor:pointer; }
-        .mbg-btn-outline { padding:11px 22px; background:#fff; color:#111; border:1.5px solid #111;
-          font-family:inherit; font-size:10px; font-weight:800; letter-spacing:1.5px;
-          text-transform:uppercase; cursor:pointer; }
-        .mbg-hero-right { background:#ebebeb; display:flex; align-items:center;
-          justify-content:center; padding:40px 32px; min-height:320px; border-left:1px solid #ddd; }
-
-        /* ZERO PERCENT STRIP */
-        .mbg-zero { display:grid; grid-template-columns:1fr 1fr 1fr; border-top:1px solid #e5e5e5; }
-        .mbg-zero-left { background:#111; color:#fff; padding:36px 32px;
-          display:flex; flex-direction:column; justify-content:center; gap:14px;
-          border-right:1px solid #2a2a2a; }
-        .mbg-zero-title { font-size:22px; font-weight:800; letter-spacing:-0.5px;
-          text-transform:uppercase; line-height:1.1; }
-        .mbg-zero-sub { font-size:11px; line-height:1.7; color:#888; max-width:220px; }
-        .mbg-stat-card { padding:28px 28px; border-right:1px solid #e5e5e5;
-          display:flex; flex-direction:column; gap:10px; }
-        .mbg-stat-card:last-child { border-right:none; }
-        .mbg-stat-icon { width:36px; height:36px; border:1.5px solid #ddd;
-          display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-        .mbg-stat-label { font-size:10px; font-weight:700; letter-spacing:1.5px;
-          text-transform:uppercase; color:#111; }
-        .mbg-stat-big { font-size:36px; font-weight:800; letter-spacing:-1px; color:#111; }
-        .mbg-stat-caption { font-size:8.5px; font-weight:700; letter-spacing:1px;
-          text-transform:uppercase; color:#aaa; border-top:1px solid #f0f0f0;
-          padding-top:10px; margin-top:4px; }
-
-        /* GLOBAL CASH ACCESS */
-        .mbg-cash { display:grid; grid-template-columns:1fr 1fr;
-          margin:32px 44px; border:1px solid #e5e5e5; }
-        .mbg-cash-left { padding:36px 36px; display:flex; flex-direction:column; gap:14px;
-          border-right:1px solid #e5e5e5; }
-        .mbg-cash-icon { width:36px; height:36px; border:1.5px solid #ddd;
-          display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-        .mbg-cash-title { font-size:18px; font-weight:800; letter-spacing:-0.3px; text-transform:uppercase; }
-        .mbg-cash-body { font-size:11.5px; line-height:1.75; color:#555; max-width:300px; }
-        .mbg-check-list { display:flex; flex-direction:column; gap:0; margin-top:6px; }
-        .mbg-check-item { display:flex; align-items:center; gap:10px; padding:9px 0;
-          border-bottom:1px solid #f0f0f0; font-size:9px; font-weight:700;
-          letter-spacing:1.2px; text-transform:uppercase; color:#555; }
-        .mbg-check-item:last-child { border-bottom:none; }
-        .mbg-cash-right { position:relative; min-height:300px; overflow:hidden; background:#c0c0c0; }
-
-        /* JOIN */
-        .mbg-join { position:relative; background:#111; padding:72px 48px;
-          text-align:center; overflow:hidden; }
-        .mbg-join-title { font-size:clamp(28px,4vw,52px); font-weight:800; letter-spacing:-2px;
-          text-transform:uppercase; color:#fff; margin-bottom:16px; }
-        .mbg-join-sub { font-size:12px; line-height:1.75; color:#888;
-          max-width:380px; margin:0 auto 32px; }
-        .mbg-btn-join { padding:14px 36px; background:transparent; color:#fff;
-          border:1.5px solid #fff; font-family:inherit; font-size:10px; font-weight:800;
-          letter-spacing:2px; text-transform:uppercase; cursor:pointer; }
-        .mbg-btn-join:hover { background:rgba(255,255,255,.08); }
-      `}</style>
-
       <div className="mbg-root">
         <div className="mbg-screen">
           <div className="mbg-inner">

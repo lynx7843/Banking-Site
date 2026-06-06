@@ -1,297 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-
-const styles = {
-  pageWrapper: {
-    width: "100vw",
-    height: "100vh",
-    backgroundColor: "#fff",
-    overflowY: "auto",
-    overflowX: "hidden",
-  },
-  root: {
-    fontFamily: "'DM Sans', 'Helvetica Neue', sans-serif",
-    color: "#111",
-    background: "#fff",
-    margin: "0 auto",
-    padding: 0,
-    maxWidth: "1440px", 
-    minHeight: "100%",
-    position: "relative",
-  },
-  hero: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    minHeight: 520,
-    position: "relative",
-    borderBottom: "1px solid #e5e5e5",
-  },
-  heroLeft: {
-    padding: "100px 60px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    gap: 24,
-  },
-  heroBadge: {
-    display: "inline-block",
-    background: "#111",
-    color: "#fff",
-    fontSize: 10,
-    fontWeight: 700,
-    letterSpacing: "2px",
-    textTransform: "uppercase",
-    padding: "5px 10px",
-    width: "fit-content",
-  },
-  heroTitle: {
-    fontSize: 56,
-    fontWeight: 800,
-    lineHeight: 1.05,
-    letterSpacing: "-2px",
-    margin: 0,
-    color: "#111",
-  },
-  heroSub: {
-    fontSize: 15,
-    lineHeight: 1.6,
-    color: "#444",
-    maxWidth: 340,
-    margin: 0,
-  },
-  heroCTA: {
-    display: "inline-block",
-    padding: "14px 28px",
-    background: "#111",
-    color: "#fff",
-    fontSize: 11,
-    fontWeight: 700,
-    letterSpacing: "1.5px",
-    cursor: "pointer",
-    border: "none",
-    width: "fit-content",
-  },
-  heroBalanceTitle: {
-    fontSize: 24, 
-    fontWeight: 800,
-    color: "#111",
-    marginTop: 24,
-    letterSpacing: "-1px",
-    lineHeight: 1,
-  },
-  heroBalanceVal: {
-    fontSize: 36, 
-    fontWeight: 700, 
-    color: "#333", 
-    marginTop: 8,
-  },
-  heroCTAGroup: {
-    display: "flex",
-    gap: 16,
-  },
-  heroBtnOutlineDark: {
-    padding: "14px 28px",
-    background: "#fff",
-    color: "#111",
-    fontSize: 11,
-    fontWeight: 700,
-    letterSpacing: "1.5px",
-    cursor: "pointer",
-    border: "1px solid #111",
-    width: "fit-content",
-  },
-  heroRight: {
-    background: "#111",
-    position: "relative",
-    overflow: "hidden",
-    minHeight: 460,
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-  },
-  statusBadge: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    background: "#111",
-    color: "#fff",
-    fontSize: 10,
-    fontWeight: 700,
-    letterSpacing: "2px",
-    textTransform: "uppercase",
-    padding: "10px 20px",
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-  },
-  statusDot: {
-    width: 6,
-    height: 6,
-    borderRadius: "50%",
-    background: "#4ade80",
-  },
-  featuresHeader: {
-    textAlign: "center",
-    padding: "80px 0 40px 0",
-  },
-  featuresTitle: {
-    fontSize: 32,
-    fontWeight: 800,
-    letterSpacing: "-1px",
-    margin: "0 0 10px 0",
-  },
-  featuresSub: {
-    fontSize: 14,
-    color: "#555",
-    margin: 0,
-  },
-  featuresRow: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: 24,
-    padding: "0 60px 80px 60px",
-  },
-  featureCard: {
-    padding: "40px 36px",
-    border: "2px solid #111",
-    borderRadius: 8,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    gap: 16,
-  },
-  featureCardDark: {
-    padding: "40px 36px",
-    border: "2px solid #111",
-    borderRadius: 8,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    gap: 16,
-    background: "#111",
-    color: "#fff",
-  },
-  featureIcon: {
-    width: 36,
-    height: 36,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-  featureTitleCentered: {
-    fontSize: 18,
-    fontWeight: 800,
-    letterSpacing: "-0.3px",
-    margin: 0,
-  },
-  featureBodyCentered: {
-    fontSize: 13,
-    lineHeight: 1.65,
-    color: "#555",
-    margin: 0,
-  },
-  featureBodyDarkCentered: {
-    fontSize: 13,
-    lineHeight: 1.65,
-    color: "#aaa",
-    margin: 0,
-  },
-  sectionTitle: {
-    fontSize: 32,
-    fontWeight: 800,
-    letterSpacing: "-1px",
-    margin: "0 0 48px",
-  },
-  perks: {
-    padding: "80px 60px",
-    borderTop: "1px solid #e5e5e5",
-    textAlign: "center",
-  },
-  perksGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(6, 1fr)",
-    borderTop: "1px solid #e5e5e5",
-    borderLeft: "1px solid #e5e5e5",
-    marginTop: 40,
-  },
-  perkCell: {
-    padding: "40px 16px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 16,
-    borderRight: "1px solid #e5e5e5",
-    borderBottom: "1px solid #e5e5e5",
-    cursor: "pointer",
-    transition: "background 0.2s ease",
-  },
-  perkIconBox: {
-    width: 48,
-    height: 48,
-    background: "#111",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 4,
-  },
-  perkIconBoxOutline: {
-    width: 48,
-    height: 48,
-    border: "2px solid #111",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 4,
-  },
-  perkLabel: {
-    fontSize: 11,
-    fontWeight: 700,
-    letterSpacing: "1px",
-    textTransform: "uppercase",
-    color: "#111",
-    textAlign: "center",
-  },
-  ctaSection: {
-    padding: "100px 60px",
-    textAlign: "center",
-    background: "#111",
-    color: "#fff",
-  },
-  ctaTitle: {
-    fontSize: 48,
-    fontWeight: 800,
-    letterSpacing: "-1.5px",
-    margin: "0 0 40px",
-  },
-  ctaButtons: {
-    display: "flex",
-    gap: 16,
-    justifyContent: "center",
-  },
-  ctaBtnSolid: {
-    padding: "16px 36px",
-    background: "#fff",
-    color: "#111",
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: "1px",
-    border: "none",
-    cursor: "pointer",
-  },
-  ctaBtnOutline: {
-    padding: "16px 36px",
-    background: "transparent",
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: "1px",
-    border: "1px solid #fff",
-    cursor: "pointer",
-  },
-};
+import "./App.css";
 
 // Geometric SVG for hero
 function HeroGeometry() {
@@ -404,8 +113,6 @@ function IconCloud({ color = "#111" }) {
 }
 
 export default function MonoBank({ setPage, user }) {
-  const [hovered, setHovered] = useState(null);
-  
   // States to manage business account data visibility
   const [balance, setBalance] = useState(null);
   const [actualBusinessBalance, setActualBusinessBalance] = useState(0);
@@ -448,27 +155,19 @@ export default function MonoBank({ setPage, user }) {
   ];
 
   return (
-    <div style={styles.pageWrapper}>
-      <div style={styles.root}>
-        {/* Google Font */}
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
-          * { box-sizing: border-box; margin: 0; padding: 0; }
-          body { margin: 0; background: #fff; }
-          button:hover { opacity: 0.85; }
-        `}</style>
-
+    <div className="biz-page-wrapper">
+      <div className="biz-root">
         {/* NAV */}
         <Navbar setPage={setPage} />
 
         {/* HERO */}
-        <section style={styles.hero}>
-          <div style={styles.heroLeft}>
-            <h1 style={styles.heroTitle}>
+        <section className="biz-hero">
+          <div className="biz-hero-left">
+            <h1 className="biz-hero-title">
               Banking Built<br />for Business.
             </h1>
             
-            <p style={styles.heroSub}>
+            <p className="biz-hero-sub">
               {balance !== null 
                 ? `Active Business Balance: Rs. ${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}` 
                 : 'Uncompromising financial infrastructure for modern enterprises. Zero fluff, total control.'}
@@ -477,65 +176,65 @@ export default function MonoBank({ setPage, user }) {
             {/* Conditional Rendering: Only show if the user has a Business account */}
             {hasBusinessAccount && (
               <>
-                <div style={styles.heroBalanceTitle}>YOUR CURRENT<br />ACCOUNT BALANCE</div>
-                <div style={styles.heroBalanceVal}>
+                <div className="biz-hero-balance-title">YOUR CURRENT<br />ACCOUNT BALANCE</div>
+                <div className="biz-hero-balance-val">
                   Rs. {actualBusinessBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </div>
 
-                <div style={{...styles.heroCTAGroup, marginTop: '24px'}}>
-                  <button style={styles.heroBtnOutlineDark} onClick={() => setPage('payment')}>Payment</button>
-                  <button style={styles.heroCTA} onClick={() => setPage('deposit')}>Deposit</button>
+                <div className="biz-hero-cta-group">
+                  <button className="biz-hero-btn-outline-dark" onClick={() => setPage('payment')}>Payment</button>
+                  <button className="biz-hero-cta" onClick={() => setPage('deposit')}>Deposit</button>
                 </div>
               </>
             )}
 
           </div>
-          <div style={styles.heroRight}>
+          <div className="biz-hero-right">
             <HeroGeometry />
-            <div style={styles.statusBadge}>
-              <span style={styles.statusDot} />
+            <div className="biz-status-badge">
+              <span className="biz-status-dot" />
               System Status: Optimal
             </div>
           </div>
         </section>
 
         {/* FEATURES ROW */}
-        <div style={styles.featuresHeader}>
-            <h2 style={styles.featuresTitle}>Designed for Efficiency.</h2>
-            <p style={styles.featuresSub}>Everything you need to keep your business in the black.</p>
+        <div className="biz-features-header">
+            <h2 className="biz-features-title">Designed for Efficiency.</h2>
+            <p className="biz-features-sub">Everything you need to keep your business in the black.</p>
         </div>
-        <div style={styles.featuresRow}>
+        <div className="biz-features-row">
           {/* Global Spending */}
-          <div style={styles.featureCard}>
-            <div style={styles.featureIcon}>
+          <div className="biz-feature-card">
+            <div className="biz-feature-icon">
               <IconWallet color="#111" />
             </div>
-            <p style={styles.featureTitleCentered}>Global Spending</p>
-            <p style={styles.featureBodyCentered}>
+            <p className="biz-feature-title-centered">Global Spending</p>
+            <p className="biz-feature-body-centered">
               Use your monochrome card anywhere contactless payments are accepted
               around the world.
             </p>
           </div>
           {/* Cash Flow Mastery */}
-          <div style={styles.featureCardDark}>
-            <div style={styles.featureIcon}>
+          <div className="biz-feature-card-dark">
+            <div className="biz-feature-icon">
               <IconSync color="#fff" />
             </div>
-            <p style={{ ...styles.featureTitleCentered, color: "#fff" }}>
+            <p className="biz-feature-title-centered" style={{ color: "#fff" }}>
               Cash Flow Mastery
             </p>
-            <p style={styles.featureBodyDarkCentered}>
+            <p className="biz-feature-body-dark-centered">
               Real-time liquidity tracking with predictive forecasting. Every cent
               accounted for, every move calculated.
             </p>
           </div>
           {/* Multi-User */}
-          <div style={styles.featureCard}>
-            <div style={styles.featureIcon}>
+          <div className="biz-feature-card">
+            <div className="biz-feature-icon">
               <IconUsers color="#111" />
             </div>
-            <p style={styles.featureTitleCentered}>Multi–User Access</p>
-            <p style={styles.featureBodyCentered}>
+            <p className="biz-feature-title-centered">Multi–User Access</p>
+            <p className="biz-feature-body-centered">
               Delegate with precision. Granular permission levels for your entire
               finance team and accountants.
             </p>
@@ -543,36 +242,31 @@ export default function MonoBank({ setPage, user }) {
         </div>
 
         {/* BUSINESS PERKS */}
-        <section style={styles.perks}>
-          <h2 style={styles.sectionTitle}>Business Perks.</h2>
-          <div style={styles.perksGrid}>
+        <section className="biz-perks">
+          <h2 className="biz-section-title">Business Perks.</h2>
+          <div className="biz-perks-grid">
             {perks.map((p, i) => (
               <div
                 key={i}
-                style={{
-                  ...styles.perkCell,
-                  background: hovered === i ? "#f7f7f5" : "#fff",
-                }}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
+                className="biz-perk-cell"
               >
                 {p.dark ? (
-                  <div style={styles.perkIconBox}>{p.icon}</div>
+                  <div className="biz-perk-icon-box">{p.icon}</div>
                 ) : (
-                  <div style={styles.perkIconBoxOutline}>{p.icon}</div>
+                  <div className="biz-perk-icon-box-outline">{p.icon}</div>
                 )}
-                <span style={styles.perkLabel}>{p.label}</span>
+                <span className="biz-perk-label">{p.label}</span>
               </div>
             ))}
           </div>
         </section>
 
         {/* READY TO SCALE */}
-        <section style={styles.ctaSection}>
-          <h2 style={styles.ctaTitle}>Ready to Scale?</h2>
-          <div style={styles.ctaButtons}>
+        <section className="biz-cta-section">
+          <h2 className="biz-cta-title">Ready to Scale?</h2>
+          <div className="biz-cta-buttons">
             <button
-              style={styles.ctaBtnSolid}
+              className="biz-cta-btn-solid"
               onClick={() => setPage('register')}
             >Open Business Account</button>
           </div>

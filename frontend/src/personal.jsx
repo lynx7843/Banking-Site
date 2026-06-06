@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
+import "./App.css";
 
 const APY = 0.0485;
 const MONTHS = 60;
@@ -104,109 +105,6 @@ export default function MonoBankFeatures({ setPage, user }) {
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        .mb2-root { font-family: 'DM Sans', sans-serif; color: #111; background: #fff; }
-        .mb2-screen { position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden; }
-        .mb2-inner { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; background: #fff; }
-        .mb2-inner::-webkit-scrollbar { width: 5px; }
-        .mb2-inner::-webkit-scrollbar-thumb { background: #bbb; }
-        .mb2-inner::-moz-scrollbar { width: 5px; }
-
-        /* Slider reset */
-        .mb2-slider { -webkit-appearance: none; appearance: none; width: 100%;
-          height: 2px; background: #ddd; outline: none; cursor: pointer; display: block; margin: 0; }
-        .mb2-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none;
-          width: 13px; height: 13px; background: #111; border-radius: 0; cursor: pointer; }
-        .mb2-slider::-moz-range-thumb { width: 13px; height: 13px; background: #111;
-          border-radius: 0; border: none; cursor: pointer; }
-
-        /* Nav */
-        .mb2-nav { display: flex; align-items: center; justify-content: space-between;
-          padding: 0 44px; height: 44px; border-bottom: 1px solid #e5e5e5;
-          background: #fff; position: sticky; top: 0; z-index: 100; flex-shrink: 0; }
-        .mb2-nav-logo { font-weight: 800; font-size: 16px; letter-spacing: -0.5px; text-transform: uppercase; }
-        .mb2-nav-links { display: flex; gap: 28px; list-style: none; }
-        .mb2-nav-link { font-size: 11px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase;
-          color: #888; text-decoration: none; cursor: pointer; }
-        .mb2-nav-link.active { color: #111; font-weight: 700;
-          text-decoration: underline; text-underline-offset: 4px; }
-        .mb2-nav-right { display: flex; align-items: center; gap: 8px; }
-        .mb2-btn-ghost { background: none; border: none; font-family: inherit;
-          font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
-          color: #111; padding: 6px 14px; cursor: pointer; }
-        .mb2-btn-solid { background: #111; border: 1.5px solid #111; color: #fff;
-          font-family: inherit; font-size: 20px; font-weight: 800; letter-spacing: 0.8px;
-          text-transform: uppercase; padding: 10px 24px; cursor: pointer; }
-        .mb2-btn-outline { background: #fff; border: 1.5px solid #111; color: #111;
-          font-family: inherit; font-size: 20px; font-weight: 800; letter-spacing: 0.8px;
-          text-transform: uppercase; padding: 10px 24px; cursor: pointer; }
-        .mb2-hero-action-btns { display: flex; gap: 12px; margin-top: 24px; }
-
-        /* Hero */
-        .mb2-hero { display: grid; grid-template-columns: 1fr 1fr;
-          height: calc(56.25vw - 44px - 52px); min-height: 240px; }
-        .mb2-hero-left { padding: 40px 48px; display: flex; flex-direction: column;
-          justify-content: flex-start; gap: 16px; }
-        .mb2-hero-badge { display: inline-block; background: #111; color: #fff;
-          font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
-          padding: 5px 10px; width: fit-content; }
-        .mb2-hero-title { font-size: clamp(30px, 3.8vw, 56px); font-weight: 800;
-          line-height: 1.0; letter-spacing: -2px; text-transform: uppercase; color: #111; }
-        .mb2-hero-sub { font-size: 12px; line-height: 1.7; color: #555; max-width: 290px; }
-        .mb2-hero-balance-title { font-size: clamp(24px, 3.2vw, 46px); font-weight: 800; color: #111; margin-top: 24px; letter-spacing: -1px; line-height: 1; }
-        .mb2-hero-balance-val { font-size: clamp(20px, 2.5vw, 36px); font-weight: 700; color: #333; margin-top: 8px; }
-        .mb2-hero-right { background: #0a0a0a; position: relative; overflow: hidden; }
-
-        /* Compounder */
-        .mb2-compounder { padding: 56px 48px; text-align: center; border-top: 1px solid #e5e5e5; }
-        .mb2-section-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
-          text-transform: uppercase; margin-bottom: 6px; color: #111; }
-        .mb2-section-sub { font-size: 11.5px; color: #999; margin-bottom: 36px; }
-        .mb2-calc-card { max-width: 560px; margin: 0 auto; border: 1px solid #d8d8d8; padding: 32px 36px; }
-        .mb2-calc-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
-        .mb2-calc-label { font-size: 8.5px; font-weight: 700; letter-spacing: 1.5px;
-          text-transform: uppercase; color: #aaa; }
-        .mb2-calc-val { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: #111; }
-        .mb2-calc-divider { border: none; border-top: 1px solid #e5e5e5; margin: 24px 0; }
-        .mb2-calc-results { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
-        .mb2-result-label { font-size: 8px; font-weight: 700; letter-spacing: 1.2px;
-          text-transform: uppercase; color: #aaa; margin-bottom: 5px; }
-        .mb2-result-val { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: #111; }
-
-        /* Features grid */
-        .mb2-features { display: grid; grid-template-columns: 1fr 1fr 1fr;
-          border-top: 1px solid #e5e5e5; }
-        .mb2-feat-col1 { padding: 36px 32px; border-right: 1px solid #e5e5e5;
-          display: flex; flex-direction: column; gap: 14px; }
-        .mb2-feat-check { width: 32px; height: 32px; border: 1.5px solid #111; flex-shrink: 0;
-          display: flex; align-items: center; justify-content: center; }
-        .mb2-feat-col2 { border-right: 1px solid #e5e5e5; display: flex; flex-direction: column; }
-        .mb2-feat-col2-top { padding: 36px 32px; border-bottom: 1px solid #e5e5e5; flex: 1; }
-        .mb2-feat-col2-bot { padding: 32px 32px 40px; position: relative; flex: 1; }
-        .mb2-feat-autopilot { position: absolute; bottom: 0; left: 32px; right: 32px;
-          border-top: 1px solid #e8e8e8; padding: 8px 0;
-          font-size: 7.5px; font-weight: 700; letter-spacing: 1.5px;
-          text-transform: uppercase; color: #ccc; }
-        .mb2-feat-col3 { background: #f5f5f3; display: flex; flex-direction: column; }
-        .mb2-feat-col3-top { padding: 28px 24px; border-bottom: 1px solid #e5e5e5; }
-        .mb2-feat-col3-bot { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; }
-        .mb2-feat-title { font-size: 13px; font-weight: 800; letter-spacing: -0.2px;
-          text-transform: uppercase; color: #111; margin-bottom: 10px; line-height: 1.2; }
-        .mb2-feat-body { font-size: 11px; line-height: 1.7; color: #666; }
-        .mb2-progress-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .mb2-progress-label { font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
-          text-transform: uppercase; color: #aaa; }
-        .mb2-progress-pct { font-size: 8px; font-weight: 700; letter-spacing: 1px; color: #111; }
-        .mb2-progress-track { height: 11px; background: #ddd; }
-        .mb2-progress-fill { width: 65%; height: 100%; background: #111; }
-        .mb2-safe-card { border: 1px solid #ddd; background: #fff; padding: 20px 24px; text-align: center; }
-        .mb2-safe-label { font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
-          text-transform: uppercase; color: #aaa; margin-bottom: 5px; margin-top: 8px; }
-        .mb2-safe-val { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: #111; }
-      `}</style>
-
       <div className="mb2-root">
         <div className="mb2-screen">
           <div className="mb2-inner">
