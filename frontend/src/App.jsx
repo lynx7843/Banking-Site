@@ -34,7 +34,7 @@ function App() {
             </h2>
           </div>
           <Hero />
-          <Features />
+          <Features setPage={setCurrentPage} />
         </>
       )}
 

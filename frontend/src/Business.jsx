@@ -291,37 +291,6 @@ const styles = {
     border: "1px solid #fff",
     cursor: "pointer",
   },
-  footer: {
-    borderTop: "1px solid #e5e5e5",
-    padding: "40px 60px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  footerLogo: {
-    fontWeight: 800,
-    fontSize: 18,
-    letterSpacing: "-0.5px",
-    textTransform: "uppercase",
-  },
-  footerLinks: {
-    display: "flex",
-    gap: 32,
-    listStyle: "none",
-    margin: 0,
-    padding: 0,
-  },
-  footerLink: {
-    fontSize: 12,
-    fontWeight: 500,
-    color: "#555",
-    cursor: "pointer",
-    textDecoration: "none",
-  },
-  footerCopy: {
-    fontSize: 12,
-    color: "#999",
-  },
 };
 
 // Geometric SVG for hero
@@ -610,20 +579,8 @@ export default function MonoBank({ setPage, user }) {
         </section>
 
         {/* FOOTER */}
-        <footer style={styles.footer}>
-          <div style={styles.footerLogo}>Mono Bank.</div>
-          <ul style={styles.footerLinks}>
-            {["Privacy Policy", "Terms of Service", "Security", "Help Center"].map(
-              (l) => (
-                <li key={l}>
-                  <a style={styles.footerLink} href="#">
-                    {l}
-                  </a>
-                </li>
-              )
-            )}
-          </ul>
-          <span style={styles.footerCopy}>© 2026 Mono Bank. Simple. Static. Secure.</span>
+        <footer className="app-footer">
+            <p>© 2026 Mono Bank. Simple. Static. Secure.</p>
         </footer>
       </div>
     </div>

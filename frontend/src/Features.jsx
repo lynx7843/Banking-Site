@@ -1,7 +1,7 @@
 // Features.js
 import React from 'react';
 
-function Features() {
+function Features({ setPage }) {
   return (
     <section className="features-section container">
         <div className="features-header">

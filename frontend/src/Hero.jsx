@@ -16,10 +16,6 @@ function Hero() {
             Strip away the noise. Secure, simple digital banking designed for focus.
             No hidden fees, just black and white value.
           </p>
-          <div className="hero-btns">
-            <a href="#" className="btn btn-primary">Start Banking</a>
-            <a href="#" className="btn btn-secondary">Learn More</a>
-          </div>
         </div>
 
         {/* Right Side: Image Placeholder */}
