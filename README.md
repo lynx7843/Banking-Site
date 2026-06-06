@@ -14,24 +14,26 @@ Features include secure authentication, a multi-step account creation wizard, an
 </h4>
 </div>
 
+<a id="features"></a>
 ## ✨ Features
 
 * MongoDB atlas for data storage
 * Spring Boot REST API for handling user authentication
 * React front-end login interface
 
+<a id="getting-started"></a>
 ## 🛠️ Getting Started
 
 ### Installation
 
 ```bash
 1. Clone this repository
-git clone https://github.com/lynx7843/Banking-Site.git
+git clone [https://github.com/lynx7843/Banking-Site.git](https://github.com/lynx7843/Banking-Site.git)
 
-2. Configure the database
+2. Configure the MongoDB atlas
 Step 1: Create the Cluster (banking_app_db)
 Step 2: Get Your Connection String
-        Create and Insert the String under MONGO_URI Variable inside .env
+        Create and Insert the String under spring.mongodb.uri Variable inside application.properties
 Step 3: Create Collections
 - account_details
 - customer_info
@@ -46,30 +48,47 @@ cd Banking-Site/frontend/src
 npm run dev
 ```
 
+<a id="tech-stack"></a>
 ## ⚙️ Tech Stack
 
 * Front-end: React
 * Back-end: Spring Boot
 * Database: MongoDB atlas
 
+<a id="preview"></a>
 ## 📷 Preview
+
 <div align="center">
-
-#### Login 
-<img src="img/login.png" alt="Login"> <br/>
-
-#### SignUp 
-<img src="img/signup.png" alt="SignUp"> <br/>
-
-#### Dashboard 
-<img src="img/dashboard.png" alt="Dashboard"> <br/>
-
-#### Personal Account 
-<img src="img/personal.png" alt="Personal Account"> <br/>
-
-#### Business Account 
-<img src="img/business.png" alt="Business Account"> <br/>
-
-#### Features 
-<img src="img/features.png" alt="Features"> <br/>
+  <table>
+    <tr>
+      <td align="center">
+        <h4>Login</h4>
+        <img src="img/login.png" alt="Login">
+      </td>
+      <td align="center">
+        <h4>SignUp</h4>
+        <img src="img/signup.png" alt="SignUp">
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <h4>Dashboard</h4>
+        <img src="img/dashboard.png" alt="Dashboard">
+      </td>
+      <td align="center">
+        <h4>Personal Account</h4>
+        <img src="img/personal.png" alt="Personal Account">
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <h4>Business Account</h4>
+        <img src="img/business.png" alt="Business Account">
+      </td>
+      <td align="center">
+        <h4>Features</h4>
+        <img src="img/features.png" alt="Features">
+      </td>
+    </tr>
+  </table>
 </div>
