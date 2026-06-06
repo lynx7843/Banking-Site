@@ -1,18 +1,4 @@
-import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-
-/* ─── tiny sparkline bar chart ─── */
-function MiniBar({ trend }) {
-  const bars = [0.3, 0.5, 0.4, 0.7, 0.6, 0.8, 0.65, 0.9, 0.75, 1.0];
-  const coloured = trend === "up" ? "#111" : trend === "down" ? "#111" : "#555";
-  return (
-    <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 20, marginTop: 10 }}>
-      {bars.map((h, i) => (
-        <div key={i} style={{ width: 6, height: `${h * 100}%`, background: i === bars.length - 1 ? coloured : "#ddd" }} />
-      ))}
-    </div>
-  );
-}
 
 /* ─── credit card SVG art ─── */
 function CardArt() {
@@ -100,27 +86,7 @@ function WorldMapBg() {
   );
 }
 
-const CURRENCIES = [
-  { pair: "USD / EUR", rate: 0.9234, trend: "up"   },
-  { pair: "GBP / USD", rate: 1.2671, trend: "flat" },
-  { pair: "JPY / USD", rate: 0.0067, trend: "down" },
-];
-
-function TrendIcon({ trend }) {
-  if (trend === "up")
-    return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>;
-  if (trend === "down")
-    return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>;
-  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>;
-}
-
 export default function MonoBankGlobal({ setPage }) {
-  const [seconds, setSeconds] = useState(2);
-  useEffect(() => {
-    const t = setInterval(() => setSeconds(s => (s >= 59 ? 1 : s + 1)), 1000);
-    return () => clearInterval(t);
-  }, []);
-
   return (
     <>
       <style>{`
@@ -186,23 +152,6 @@ export default function MonoBankGlobal({ setPage }) {
           text-transform:uppercase; color:#aaa; border-top:1px solid #f0f0f0;
           padding-top:10px; margin-top:4px; }
 
-        /* LIVE MARKET DATA */
-        .mbg-market { padding:20px 44px; border-top:1px solid #e5e5e5;
-          display:flex; align-items:center; justify-content:space-between; }
-        .mbg-market-title { font-size:15px; font-weight:800; letter-spacing:-0.3px; text-transform:uppercase; }
-        .mbg-market-updated { font-size:8.5px; font-weight:600; letter-spacing:1px;
-          text-transform:uppercase; color:#aaa; margin-top:3px; }
-        .mbg-btn-terminal { padding:8px 16px; background:#111; color:#fff; border:none;
-          font-family:inherit; font-size:9px; font-weight:800; letter-spacing:1.5px;
-          text-transform:uppercase; cursor:pointer; }
-        .mbg-rates { display:grid; grid-template-columns:repeat(3,1fr);
-          border:1px solid #e5e5e5; margin:0 44px 0; }
-        .mbg-rate-card { padding:22px 28px; border-right:1px solid #e5e5e5; }
-        .mbg-rate-card:last-child { border-right:none; }
-        .mbg-rate-pair { display:flex; justify-content:space-between; align-items:center;
-          font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#aaa; margin-bottom:6px; }
-        .mbg-rate-val { font-size:32px; font-weight:800; letter-spacing:-1px; color:#111; }
-
         /* GLOBAL CASH ACCESS */
         .mbg-cash { display:grid; grid-template-columns:1fr 1fr;
           margin:32px 44px; border:1px solid #e5e5e5; }
@@ -230,15 +179,6 @@ export default function MonoBankGlobal({ setPage }) {
           border:1.5px solid #fff; font-family:inherit; font-size:10px; font-weight:800;
           letter-spacing:2px; text-transform:uppercase; cursor:pointer; }
         .mbg-btn-join:hover { background:rgba(255,255,255,.08); }
-
-        /* FOOTER */
-        .mbg-footer { border-top:1px solid #e5e5e5; padding:20px 44px;
-          display:flex; align-items:center; justify-content:space-between; }
-        .mbg-footer-logo { font-weight:800; font-size:14px; letter-spacing:-.5px; text-transform:uppercase; }
-        .mbg-footer-links { display:flex; gap:20px; list-style:none; }
-        .mbg-footer-link { font-size:9px; font-weight:600; letter-spacing:1px;
-          text-transform:uppercase; color:#999; text-decoration:none; cursor:pointer; }
-        .mbg-footer-copy { font-size:9px; color:#bbb; letter-spacing:.5px; text-transform:uppercase; }
       `}</style>
 
       <div className="mbg-root">
@@ -255,11 +195,10 @@ export default function MonoBankGlobal({ setPage }) {
                 <h1 className="mbg-hero-title">Spend Anywhere.<br />Go Everywhere.</h1>
                 <p className="mbg-hero-sub">
                   The monochrome card is engineered for the borderless traveler. Real-time
-                  rates, zero hidden fees, and absolute security across 180+ countries.
+                  rates, zero hidden fees, and absolute security across country.
                 </p>
                 <div className="mbg-hero-btns">
-                  <button className="mbg-btn-solid">Get Started</button>
-                  <button className="mbg-btn-outline">View Rates</button>
+                  <button className="mbg-btn-solid" onClick={() => setPage('login')}>Get Started</button>
                 </div>
               </div>
               <div className="mbg-hero-right">
@@ -307,29 +246,6 @@ export default function MonoBankGlobal({ setPage }) {
               </div>
             </div>
 
-            {/* ── LIVE MARKET DATA ── */}
-            <div style={{ borderTop: "1px solid #e5e5e5" }}>
-              <div className="mbg-market">
-                <div>
-                  <div className="mbg-market-title">Live Market Data</div>
-                  <div className="mbg-market-updated">Updated {seconds} second{seconds !== 1 ? "s" : ""} ago</div>
-                </div>
-                <button className="mbg-btn-terminal">Open Terminal</button>
-              </div>
-              <div className="mbg-rates">
-                {CURRENCIES.map(({ pair, rate, trend }) => (
-                  <div className="mbg-rate-card" key={pair}>
-                    <div className="mbg-rate-pair">
-                      <span>{pair}</span>
-                      <TrendIcon trend={trend} />
-                    </div>
-                    <div className="mbg-rate-val">{rate.toFixed(4)}</div>
-                    <MiniBar trend={trend} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* ── GLOBAL CASH ACCESS ── */}
             <div className="mbg-cash">
               <div className="mbg-cash-left">
@@ -345,11 +261,11 @@ export default function MonoBankGlobal({ setPage }) {
                 <p className="mbg-cash-title">Global Cash Access.</p>
                 <p className="mbg-cash-body">
                   Withdraw cash from any ATM displaying the network logo. We don't charge
-                  you for domestic or international withdrawals up to $1,000 monthly.
+                  you for domestic or international withdrawals up to Rs.10,000 monthly.
                 </p>
                 <div className="mbg-check-list">
                   {[
-                    "Free withdrawals up to $1,000/mo",
+                    "Free withdrawals up to Rs.1,000/mo",
                     "ATM locator via mobile app",
                     "Instant freeze if lost abroad",
                   ].map(item => (
@@ -377,19 +293,13 @@ export default function MonoBankGlobal({ setPage }) {
                   Join over 5 million people moving money around the world without the
                   typical bank hassle.
                 </p>
-                <button className="mbg-btn-join">Open Your Account</button>
+                <button className="mbg-btn-join" onClick={() => setPage('register')}>Open Your Account</button>
               </div>
             </section>
 
             {/* ── FOOTER ── */}
-            <footer className="mbg-footer">
-              <div className="mbg-footer-logo">Mono Bank.</div>
-              <ul className="mbg-footer-links">
-                {["Privacy Policy", "Terms of Service", "Security", "Help Center"].map(l => (
-                  <li key={l}><a className="mbg-footer-link" href="#">{l}</a></li>
-                ))}
-              </ul>
-              <span className="mbg-footer-copy">© 2024 Mono Bank. All rights reserved.</span>
+            <footer className="app-footer">
+              <p>© 2026 Mono Bank. Simple. Static. Secure.</p>
             </footer>
 
           </div>

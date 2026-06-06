@@ -55,7 +55,7 @@ function Register({ setPage }) {
         
         {error && <div className="error-message" style={{ margin: '20px 40px 0', color: 'red', fontWeight: 'bold' }}>{error}</div>}
         
-        <form className="register-form">
+        <form className="register-form" onSubmit={handleRegister}>
           <div className="form-grid">
             
             {/* Part 1: User Information */}
@@ -159,9 +159,8 @@ function Register({ setPage }) {
           </div>
 
           <button 
-            type="button" 
+            type="submit" 
             className="btn btn-primary register-btn"
-            onClick={handleRegister}
             disabled={isLoading}
           >
             {isLoading ? 'Submitting...' : 'Submit Application'}

@@ -43,7 +43,7 @@ function Login({ setPage, setUser }) {
         
         {error && <div className="error-message" style={{ marginBottom: '15px', color: 'red', fontWeight: 'bold' }}>{error}</div>}
         
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleLogin}>
           <div className="form-group">
             <label className="form-label" htmlFor="email">Email Address</label>
             <input 
@@ -52,7 +52,7 @@ function Login({ setPage, setUser }) {
               id="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@mybank.com"
+              placeholder="user@email.com"
             />
           </div>
           
@@ -64,13 +64,13 @@ function Login({ setPage, setUser }) {
               id="password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
             />
           </div>
           
           <button 
-            type="button" 
+            type="submit" 
             className="btn btn-primary login-btn"
-            onClick={handleLogin}
             disabled={isLoading}
           >
             {isLoading ? 'Authenticating...' : 'Log In'}

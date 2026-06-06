@@ -205,15 +205,6 @@ export default function MonoBankFeatures({ setPage, user }) {
         .mb2-safe-label { font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
           text-transform: uppercase; color: #aaa; margin-bottom: 5px; margin-top: 8px; }
         .mb2-safe-val { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: #111; }
-
-        /* Footer */
-        .mb2-footer { border-top: 1px solid #e5e5e5; padding: 20px 44px;
-          display: flex; align-items: center; justify-content: space-between; }
-        .mb2-footer-logo { font-weight: 800; font-size: 14px; letter-spacing: -0.5px; text-transform: uppercase; }
-        .mb2-footer-links { display: flex; gap: 20px; list-style: none; }
-        .mb2-footer-link { font-size: 9px; font-weight: 600; letter-spacing: 1px;
-          text-transform: uppercase; color: #999; text-decoration: none; cursor: pointer; }
-        .mb2-footer-copy { font-size: 9px; color: #bbb; letter-spacing: 0.5px; text-transform: uppercase; }
       `}</style>
 
       <div className="mb2-root">
@@ -365,14 +356,8 @@ export default function MonoBankFeatures({ setPage, user }) {
             </div>
 
             {/* ── FOOTER ── */}
-            <footer className="mb2-footer">
-              <div className="mb2-footer-logo">Mono Bank.</div>
-              <ul className="mb2-footer-links">
-                {["Privacy Policy", "Terms of Service", "Security", "Help Center"].map((l) => (
-                  <li key={l}><a className="mb2-footer-link" href="#">{l}</a></li>
-                ))}
-              </ul>
-              <span className="mb2-footer-copy">© 2026 Mono Bank. All rights reserved.</span>
+            <footer className="app-footer">
+              <p>© 2026 Mono Bank. Simple. Static. Secure.</p>
             </footer>
 
           </div>
