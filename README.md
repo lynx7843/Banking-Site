@@ -28,7 +28,7 @@ Features include secure authentication, a multi-step account creation wizard, an
 
 ```bash
 1. Clone this repository
-git clone [https://github.com/lynx7843/Banking-Site.git](https://github.com/lynx7843/Banking-Site.git)
+git clone https://github.com/lynx7843/Banking-Site.git
 
 2. Configure the MongoDB atlas
 Step 1: Create the Cluster (banking_app_db)
